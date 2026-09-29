@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#fdf2f8">
+    <title>رحلة تعلم في عالم لغتي لطالبات الصف الأول والثاني - المعلمة مها صالح الشمري</title>
+
+    <!-- External Tailwind CSS & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * {
+            font-family: 'Tajawal', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #fdf2f8; /* Soft Light Pink */
+            background-image: radial-gradient(#fbcfe8 1.8px, transparent 1.8px); /* Subtle Pink Polka Dots */
+            background-size: 24px 24px;
+            min-height: 100vh;
+        }
+
+        .bounce-hover {
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+        }
+        .bounce-hover:hover {
+            transform: scale(1.02) translateY(-2px);
+        }
+        .bounce-hover:active {
+            transform: scale(0.97);
+        }
+
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(219, 39, 119, 0.1), 0 8px 10px -6px rgba(16, 185, 129, 0.06);
+        }
+
+        .glow-star {
+            filter: drop-shadow(0 0 8px #f59e0b);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(2deg); }
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .shake-error {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        .letter-slot {
+            min-width: 44px;
+            min-height: 44px;
+            border: 3px dashed #f472b6;
+            transition: all 0.25s ease;
+        }
+        @media (min-width: 640px) {
+            .letter-slot {
+                min-width: 56px;
+                min-height: 56px;
+            }
+        }
+
+        .letter-slot.filled {
+            border-style: solid;
+            border-color: #ec4899;
+            background-color: #fdf2f8;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .letter-slot.filled:hover {
+            background-color: #ffe4e6;
+            border-color: #f43f5e;
+        }
+
+        .nav-quick-btn {
+            transition: all 0.2s ease;
+        }
+        .nav-quick-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .word-chip {
+            transition: all 0.2s ease;
+        }
+        .word-chip:hover {
+            transform: scale(1.04);
+        }
+
+        #writing-canvas {
+            touch-action: none; /* Prevents scrolling while drawing on touchscreen/iPad */
+        }
+
+        /* Certificate Print Styling */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #certificate-modal, #certificate-modal * {
+                visibility: visible;
+            }
+            #certificate-modal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: white !important;
+                padding: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 7px; height: 7px; }
+        ::-webkit-scrollbar-track { background: #fce7f3; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #34d399; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-800 overflow-x-hidden">
+
+    <!-- Toast Notification for Link Copy -->
+    <div id="toast-notify" class="fixed top-14 sm:top-20 left-1/2 -translate-x-1/2 z-50 bg-emerald-600 text-white font-black text-xs sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl shadow-xl transition-all duration-300 opacity-0 pointer-events-none flex items-center gap-2 max-w-[92vw] text-center">
+        <i class="fa-solid fa-check-circle text-base sm:text-lg shrink-0"></i>
+        <span>تَمَّ نَسْخُ رَابِطِ التَّطْبِيقِ بِنَجَاحٍ! سَهْلُ الْفَتْحِ عَلَى كَافَّةِ الأَجْهِزَةِ ✨</span>
+    </div>
+
+    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-pink-200 shadow-sm px-3 sm:px-4 py-2 sm:py-2.5">
+        <div class="max-w-6xl mx-auto flex justify-between items-center gap-2">
+            <!-- Brand & Compact Header Title -->
+            <div class="flex items-center gap-2 sm:gap-2.5 cursor-pointer" onclick="goHome()">
+                <div class="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-tr from-pink-500 via-purple-500 to-emerald-400 rounded-2xl flex items-center justify-center text-lg sm:text-2xl text-white shadow-md transform -rotate-6 shrink-0">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="text-xs sm:text-sm md:text-lg lg:text-xl font-black text-pink-600 tracking-tight leading-tight">رِحْلَةُ تَعَلُّمٍ فِي عَالَمِ لُغَتِي لِطَالِبَاتِ الصَّفِّ الأَوَّلِ وَالثَّانِي 🌟</h1>
+                    <p class="text-[9px] sm:text-xs font-bold text-emerald-600 mt-0.5">إِعْدَادُ الْمُعَلِّمَةِ: مَهَا صَالِح الشَّمَرِيِّ 🌸</p>
+                </div>
+            </div>
+
+            <!-- Header Controls -->
+            <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+                <button onclick="copyAppLink()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 text-emerald-800 font-black text-xs flex items-center gap-1 transition shadow-sm" title="نسخ رابط التطبيق للمشاركة">
+                    <i class="fa-solid fa-link text-emerald-600"></i>
+                    <span class="hidden md:inline">نَسْخُ الرَّابِطِ</span>
+                </button>
+
+                <button id="sound-btn" onclick="toggleSound()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-pink-50 hover:bg-pink-100 border border-pink-200 flex items-center justify-center text-pink-600 transition" title="كتم/تشغيل الصوت">
+                    <i id="sound-icon" class="fa-solid fa-volume-high text-xs sm:text-base"></i>
+                </button>
+
+                <button onclick="openCertificateModal()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-purple-100 hover:bg-purple-200 border border-purple-300 text-purple-800 font-black text-xs flex items-center gap-1 transition shadow-sm" title="شهادة التقدير">
+                    <i class="fa-solid fa-award text-xs sm:text-base text-purple-600"></i>
+                    <span class="hidden sm:inline">الشهادة</span>
+                </button>
+
+                <div class="flex items-center gap-1 bg-yellow-50 border border-yellow-300 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-2xl shadow-inner">
+                    <i class="fa-solid fa-star text-amber-400 text-base sm:text-lg glow-star"></i>
+                    <span id="star-count" class="font-black text-sm sm:text-lg text-amber-700">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-6xl w-full mx-auto p-3 sm:p-4 md:p-6 flex flex-col">
+
+        <nav id="quick-nav-bar" class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5 mb-5 sm:mb-8 bg-white/90 backdrop-blur p-2 sm:p-2.5 rounded-3xl border border-purple-200 shadow-sm mx-auto w-full">
+            <a href="#sec-reading" class="nav-quick-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-pink-100 hover:bg-pink-200 border border-pink-300 rounded-2xl text-[11px] sm:text-xs font-black text-pink-800 flex items-center gap-1">
+                <span>📖</span> 1. الْقِرَاءَةُ وَالنُّطْقُ
+            </a>
+            <a href="#sec-writing" class="nav-quick-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 rounded-2xl text-[11px] sm:text-xs font-black text-emerald-800 flex items-center gap-1">
+                <span>✍</span> 2. الْكِتَابَةُ وَالرَّسْمُ
+            </a>
+            <a href="#sec-comprehension" class="nav-quick-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-purple-100 hover:bg-purple-200 border border-purple-300 rounded-2xl text-[11px] sm:text-xs font-black text-purple-800 flex items-center gap-1">
+                <span>🧠</span> 3. الْفَهْمُ الْقِرَائِيُّ
+            </a>
+            <a href="#sec-grammar" class="nav-quick-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-fuchsia-100 hover:bg-fuchsia-200 border border-fuchsia-300 rounded-2xl text-[11px] sm:text-xs font-black text-fuchsia-800 flex items-center gap-1">
+                <span>🧩</span> 4. التَّرَاكِيبُ اللُّغَوِيَّةُ
+            </a>
+        </nav>
+
+        <!-- DASHBOARD CONTAINER -->
+        <div id="main-dashboard" class="space-y-6 sm:space-y-10">
+
+            <!-- SECTION 1: READING -->
+            <section id="sec-reading" class="space-y-3 sm:space-y-5 scroll-mt-20">
+                <div class="bg-gradient-to-r from-pink-500 via-purple-500 to-rose-500 rounded-3xl p-4 sm:p-6 text-white card-shadow flex items-center justify-between gap-3">
+                    <div>
+                        <span class="bg-white/20 text-white text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full font-bold">🌸 الْقِسْمُ الأَوَّلُ</span>
+                        <h2 class="text-lg sm:text-2xl md:text-3xl font-black mt-1">1. مَهَارَاتُ الْقِرَاءَةِ وَالنُّطْقِ 📖</h2>
+                        <p class="text-white/95 text-[11px] sm:text-xs md:text-sm mt-0.5">اخْتَارِي تَدْرِيباً لِتَطْوِيرِ مَهَارَاتِكِ فِي قِرَاءَةِ الحُرُوفِ وَالْكَلِمَاتِ.</p>
+                    </div>
+                    <div class="text-3xl sm:text-5xl hidden sm:block animate-float">⭐</div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
+                    <div onclick="openModule('explorer')" class="bg-white/95 rounded-3xl p-4 sm:p-5 border-2 border-pink-200 hover:border-pink-400 card-shadow cursor-pointer bounce-hover flex flex-col justify-between items-center text-center">
+                        <div class="flex flex-col items-center">
+                            <div class="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center text-xl sm:text-2xl mb-2 sm:mb-3">💖</div>
+                            <h3 class="text-base sm:text-lg font-black text-slate-800">مُسْتَكْشِفُ الحُرُوفِ الذَّكِيُّ</h3>
+                            <p class="text-slate-500 text-[11px] sm:text-xs mt-1 leading-relaxed">استكشفي الحروف الهجائية مع الكلمات المصورة والأصوات الناطقة بدون تكرار.</p>
+                        </div>
+                        <span class="mt-3 text-xs font-bold text-pink-600 flex items-center justify-center gap-1">ابدأي التدريب <i class="fa-solid fa-arrow-left"></i></span>
+                    </div>
+
+                    <div onclick="openModule('builder')" class="bg-white/95 rounded-3xl p-4 sm:p-5 border-2 border-fuchsia-200 hover:border-fuchsia-400 card-shadow cursor-pointer bounce-hover flex flex-col justify-between items-center text-center">
+                        <div class="flex flex-col items-center">
+                            <div class="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center text-xl sm:text-2xl mb-2 sm:mb-3">🧩</div>
+                            <h3 class="text-base sm:text-lg font-black text-slate-800">صَانِعُ الْكَلِمَاتِ</h3>
+                            <p class="text-slate-500 text-[11px] sm:text-xs mt-1 leading-relaxed">ركّبي الكلمات الثلاثية البسيطة (بدون شدة ولا سكون) لتكوين الكلمة المناسبة.</p>
+                        </div>
+                        <span class="mt-3 text-xs font-bold text-fuchsia-600 flex items-center justify-center gap-1">ابدأي التدريب <i class="fa-solid fa-arrow-left"></i></span>
+                    </div>
+
+                    <div onclick="openModule('analysis')" class="bg-white/95 rounded-3xl p-4 sm:p-5 border-2 border-purple-200 hover:border-purple-400 card-shadow cursor-pointer bounce-hover flex flex-col justify-between items-center text-center">
+                        <div class="flex flex-col items-center">
+                            <div class="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl sm:text-2xl mb-2 sm:mb-3">✂️</div>
+                            <h3 class="text-base sm:text-lg font-black text-slate-800">تَحْلِيلُ الْكَلِمَاتِ</h3>
+                            <p class="text-slate-500 text-[11px] sm:text-xs mt-1 leading-relaxed">فكّكي الكلمة إلى مقاطِعَ وحروفٍ صوتية واضحة (خالية من الحروف المشددة).</p>
+                        </div>
+                        <span class="mt-3 text-xs font-bold text-purple-600 flex items-center justify-center gap-1">ابدأي التدريب <i class="fa-solid fa-arrow-left"></i></span>
+                    </div>
+
+                    <div onclick="openModule('madd-sukun')" class="bg-white/95 rounded-3xl p-4 sm:p-5 border-2 border-emerald-200 hover:border-emerald-400 card-shadow cursor-pointer bounce-hover flex flex-col justify-between items-center text-center">
+                        <div class="flex flex-col items-center">
+                            <div class="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl sm:text-2xl mb-2 sm:mb-3">🔊</div>
+                            <h3 class="text-base sm:text-lg font-black text-slate-800">حُرُوفُ الْمَدِّ وَالْمَقْطَعُ السَّاكِنُ</h3>
+                            <p class="text-slate-500 text-[11px] sm:text-xs mt-1 leading-relaxed">ميّزي الصوت الطويل (المد) والمقطع الساكن من خلال الاستماع والتحليل.</p>
+                        </div>
+                        <span class="mt-3 text-xs font-bold text-emerald-600 flex items-center justify-center gap-1">ابدأي التدريب <i class="fa-solid fa-arrow-left"></i></span>
+                    </div>
+
+                    <div onclick="openModule('pyramid-reading')" class="bg-white/95 rounded-3xl p-4 sm:p-5 border-2 border-pink-200 hover:border-pink-400 card-shadow cursor-pointer bounce-hover flex flex-col justify-between items-center text-center sm:col-span-2 lg:col-span-2">
+                        <div class="flex flex-col items-center">
+                            <div class="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-pink-100 text-pink-700 flex items-center justify-center text-xl sm:text-2xl mb-2 sm:mb-3">📐</div>
+                            <h3 class="text-base sm:text-lg font-black text-slate-800">قِرَاءَةُ الْجُمَلِ وَالْقِرَاءَةُ الْهَرَمِيَّةُ</h3>
+                            <p class="text-slate-500 text-[11px] sm:text-xs mt-1 leading-relaxed">اقرأي الكلمات والجمل بالتدرج الهرمي مع الاستماع للكلمة بمفردها ولالجملة كاملة.</p>
+                        </div>
+                        <span class="mt-3 text-xs font-bold text-pink-700 flex items-center justify-center gap-1">ابدأي التدريب <i class="fa-solid fa-arrow-left"></i></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: WRITING & BLACKBOARD -->
+            <section id="sec-writing" class="space-y-3 sm:space-y-5 scroll-mt-20">
+                <div class="bg-gradient-to-r from-emerald-500 via-teal-500 to-green-600 rounded-3xl p-4 sm:p-6 text-white card-shadow flex items-center justify-between gap-3">
+                    <div>
+                        <span class="bg-white/20 text-white text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full font-bold">🌿 الْقِسْمُ الثَّانِي</span>
+                        <h2 class="text-lg sm:text-2xl md:text-3xl font-black mt-1">2. مَهَارَاتُ الْكِتَابَةِ وَالرَّسْمِ ✍</h2>
+                        <p class="text-white/95 text-[11px] sm:text-xs md:text-sm mt-0.5">تَدَرَّبِي عَلَى كِتَابَةِ الحُرُوفِ بِمَوَاضِعِهَا وَتَرْكِيبِ الْكَلِمَاتِ عَلَى السَّبُّورَةِ الذَّكِيَّةِ.</p>
+                    </div>
+                    <div class="text-3xl sm:text-5xl hidden sm:block animate-float">🎨</div>
+                </div>
+
+                <div class="bg-white/95 rounded-3xl p-3.5 sm:p-6 border-2 border-emerald-200 card-shadow space-y-3 sm:space-y-5">
+                    <div class="flex flex-wrap items-center justify-center sm:justify-between gap-2.5 border-b border-emerald-100 pb-3 text-center">
+                        <div class="flex items-center justify-center gap-2 flex-wrap">
+                            <span class="font-extrabold text-slate-800 text-xs sm:text-base">الَسَّبُّورَةُ الذَّكِيَّةُ:</span>
+                            <select id="board-letter-select" onchange="loadLetterPositions()" class="bg-emerald-50 border border-emerald-300 rounded-xl px-2.5 py-1 font-bold text-emerald-800 text-xs sm:text-sm">
+                                <!-- Injected by JS -->
+                            </select>
+                        </div>
+
+                        <div class="flex items-center justify-center gap-2 flex-wrap">
+                            <label class="text-[11px] sm:text-xs font-bold text-slate-500">اللون:</label>
+                            <input type="color" id="draw-color" value="#10b981" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg cursor-pointer border">
+
+                            <label class="text-[11px] sm:text-xs font-bold text-slate-500 mr-1">الحجم:</label>
+                            <input type="range" id="draw-size" min="3" max="18" value="6" class="w-14 sm:w-20">
+
+                            <button onclick="clearCanvas()" class="px-2.5 py-1 sm:py-1.5 rounded-xl bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xs flex items-center gap-1 transition">
+                                <i class="fa-solid fa-eraser"></i> مسح اللوحة
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-emerald-50/80 rounded-2xl p-2.5 sm:p-4 border border-emerald-200 flex flex-wrap justify-around items-center gap-2 sm:gap-4 text-center">
+                        <div>
+                            <span class="text-[10px] sm:text-xs font-bold text-emerald-700 block">أَوَّلُ الْكَلِمَةِ</span>
+                            <span id="pos-initial" class="text-xl sm:text-3xl font-black text-slate-800">أَ</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] sm:text-xs font-bold text-emerald-700 block">وَسَطُ الْكَلِمَةِ</span>
+                            <span id="pos-medial" class="text-xl sm:text-3xl font-black text-slate-800">ـأَ</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] sm:text-xs font-bold text-emerald-700 block">آخِرُ الْكَلِمَةِ</span>
+                            <span id="pos-final" class="text-xl sm:text-3xl font-black text-slate-800">ـأَ</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] sm:text-xs font-bold text-emerald-700 block">مُنْفَصِلٌ</span>
+                            <span id="pos-isolated" class="text-xl sm:text-3xl font-black text-slate-800">أَ</span>
+                        </div>
+                        <button onclick="speakSelectedBoardLetter()" class="px-3 py-1.5 bg-emerald-600 text-white rounded-xl font-bold text-xs hover:bg-emerald-700 flex items-center justify-center gap-1 shadow">
+                            <i class="fa-solid fa-volume-high"></i> نَطْقُ الكَلِمَةِ
+                        </button>
+                    </div>
+
+                    <div class="relative w-full bg-slate-900 rounded-2xl overflow-hidden border-4 border-emerald-900 shadow-inner min-h-[200px] sm:min-h-[260px] flex items-center justify-center">
+                        <div class="absolute inset-0 pointer-events-none flex flex-col justify-around opacity-20">
+                            <div class="border-b-2 border-dashed border-emerald-300 w-full"></div>
+                            <div class="border-b-2 border-solid border-teal-400 w-full"></div>
+                            <div class="border-b-2 border-dashed border-emerald-300 w-full"></div>
+                        </div>
+                        <canvas id="writing-canvas" class="w-full h-52 sm:h-64 cursor-crosshair relative z-10"></canvas>
+                    </div>
+
+                    <div class="bg-emerald-50/50 p-3 sm:p-4 rounded-2xl border border-emerald-200 flex flex-col sm:flex-row justify-between items-center gap-2.5 text-center sm:text-right">
+                        <div class="flex flex-col gap-0.5 items-center sm:items-start">
+                            <span class="text-[11px] font-bold text-slate-500">تَدْرِيبُ تَرْكِيبِ وَكِتَابَةِ الكَلِمَاتِ:</span>
+                            <h4 id="writing-target-word" class="text-lg sm:text-2xl font-black text-emerald-700">كَتَبَ ( كَـ + ـتَـ + ـبَ )</h4>
+                        </div>
+                        <div class="flex items-center justify-center gap-2">
+                            <button onclick="speakCurrentWritingWord()" class="px-3 py-1.5 sm:py-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 rounded-xl font-bold text-xs flex items-center gap-1">
+                                <i class="fa-solid fa-volume-high"></i> نطق الكلمة
+                            </button>
+                            <button onclick="nextWritingWord()" class="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow">
+                                كلمة جديدة <i class="fa-solid fa-rotate-right mr-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: COMPREHENSION -->
+            <section id="sec-comprehension" class="space-y-3 sm:space-y-5 scroll-mt-20">
+                <div class="bg-gradient-to-r from-purple-500 via-fuchsia-500 to-pink-500 rounded-3xl p-4 sm:p-6 text-white card-shadow flex items-center justify-between gap-3">
+                    <div>
+                        <span class="bg-white/20 text-white text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full font-bold">🔮 الْقِسْمُ الثَّالِثُ</span>
+                        <h2 class="text-lg sm:text-2xl md:text-3xl font-black mt-1">3. الْفَهْمُ الْقِرَائِيُّ وَالْمَعَاني 🧠</h2>
+                        <p class="text-white/95 text-[11px] sm:text-xs md:text-sm mt-0.5">اقْرَأِي القِصَصَ القَصِيرَةَ مِنْ مَنْهَجِ لُغَتِي، وَتَعَرَّفِي عَلَى الْمُرَادِفَاتِ وَالأَضْدَادِ.</p>
+                    </div>
+                    <div class="text-3xl sm:text-5xl hidden sm:block animate-float">📖</div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-5">
+                    <div onclick="openComprehensionStory()" class="bg-white/95 rounded-3xl p-4 sm:p-6 border-2 border-purple-200 hover:border-purple-400 card-shadow cursor-pointer bounce-hover flex flex-col justify-between items-center text-center">
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 sm:w-15 sm:h-15 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl sm:text-3xl mb-2 sm:mb-3">📚</div>
+                            <h3 class="text-lg sm:text-xl font-black text-slate-800">مَجْمُوعَةُ القِصَصِ القَصِيرَةِ (5 قِصَصٍ)</h3>
+                            <p class="text-slate-500 text-[11px] sm:text-xs md:text-sm mt-1 leading-relaxed">اقرأي قصصاً شائقة من منهج الصف الأول والثاني، ثم أجيبي عن أسئلة الاستيعاب.</p>
+                        </div>
+                        <span class="mt-3 text-xs sm:text-sm font-bold text-purple-600 flex items-center justify-center gap-1">ابدأي قراءة القصة <i class="fa-solid fa-arrow-left"></i></span>
+                    </div>
+
+                    <div onclick="openSynAntModule()" class="bg-white/95 rounded-3xl p-4 sm:p-6 border-2 border-pink-200 hover:border-pink-400 card-shadow cursor-pointer bounce-hover flex flex-col justify-between items-center text-center">
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 sm:w-15 sm:h-15 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center text-2xl sm:text-3xl mb-2 sm:mb-3">⚖️</div>
+                            <h3 class="text-lg sm:text-xl font-black text-slate-800">التَّضَادُّ وَالتَّرَادُفُ (30 كَلِمَةً)</h3>
+                            <p class="text-slate-500 text-[11px] sm:text-xs md:text-sm mt-1 leading-relaxed">لُعْبَةُ كَشْفِ مَعَانِي الْكَلِمَاتِ وَأَضْدَادِهَا مِنْ مَنْهَجِ لُغَتِي (15 كَلِمَةً لِلتَّضَادِّ وَ 15 كَلِمَةً لِلتَّرَادُفِ).</p>
+                        </div>
+                        <span class="mt-3 text-xs sm:text-sm font-bold text-pink-600 flex items-center justify-center gap-1">ابدأي التحدي <i class="fa-solid fa-arrow-left"></i></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: GRAMMAR & STRUCTURES -->
+            <section id="sec-grammar" class="space-y-3 sm:space-y-5 scroll-mt-20">
+                <div class="bg-gradient-to-r from-purple-500 via-pink-500 to-emerald-500 rounded-3xl p-4 sm:p-6 text-white card-shadow flex items-center justify-between gap-3">
+                    <div>
+                        <span class="bg-white/20 text-white text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full font-bold">🌟 الْقِسْمُ الرَّابِعُ</span>
+                        <h2 class="text-lg sm:text-2xl md:text-3xl font-black mt-1">4. التَّرَاكِيبُ وَالْقَوَاعِدُ اللُّغَوِيَّةُ 🧩</h2>
+                        <p class="text-white/95 text-[11px] sm:text-xs md:text-sm mt-0.5">تَدَرَّبِي عَلَى الشَّمْسِيَّةِ وَالْقَمَرِيَّةِ، التَّنْوِينِ، الشَّدَّةِ، والضَّمَائِرِ بأسلوبٍ مُبَسَّطٍ.</p>
+                    </div>
+                    <div class="text-3xl sm:text-5xl hidden sm:block animate-float">✨</div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4">
+                    <button onclick="openGrammarTopic('sun-moon')" class="p-3 sm:p-4 bg-white/95 border-2 border-pink-300 hover:border-pink-500 rounded-2xl card-shadow bounce-hover text-center space-y-1.5 flex flex-col items-center justify-center min-h-[100px]">
+                        <span class="text-2xl sm:text-3xl block">☀️🌙</span>
+                        <h4 class="font-extrabold text-slate-800 text-xs sm:text-sm md:text-base">الـ الشَّمْسِيَّةُ وَالْقَمَرِيَّةُ</h4>
+                    </button>
+
+                    <button onclick="openGrammarTopic('shaddah')" class="p-3 sm:p-4 bg-white/95 border-2 border-emerald-300 hover:border-emerald-500 rounded-2xl card-shadow bounce-hover text-center space-y-1.5 flex flex-col items-center justify-center min-h-[100px]">
+                        <span class="text-2xl sm:text-3xl block">⚡</span>
+                        <h4 class="font-extrabold text-slate-800 text-xs sm:text-sm md:text-base">الـشَّدَّةُ</h4>
+                    </button>
+
+                    <button onclick="openGrammarTopic('tanween')" class="p-3 sm:p-4 bg-white/95 border-2 border-fuchsia-300 hover:border-fuchsia-500 rounded-2xl card-shadow bounce-hover text-center space-y-1.5 flex flex-col items-center justify-center min-h-[100px]">
+                        <span class="text-2xl sm:text-3xl block">🔔</span>
+                        <h4 class="font-extrabold text-slate-800 text-xs sm:text-sm md:text-base">التَّنْوِينُ ( ـً   ـٌ   ـٍ )</h4>
+                    </button>
+
+                    <button onclick="openGrammarTopic('exception')" class="p-3 sm:p-4 bg-white/95 border-2 border-purple-300 hover:border-purple-500 rounded-2xl card-shadow bounce-hover text-center space-y-1.5 flex flex-col items-center justify-center min-h-[100px]">
+                        <span class="text-2xl sm:text-3xl block">🚫</span>
+                        <h4 class="font-extrabold text-slate-800 text-xs sm:text-sm md:text-base">الإِسْتِثْنَاءُ (إِلَّا / غَيْر)</h4>
+                    </button>
+
+                    <button onclick="openGrammarTopic('hamza')" class="p-3 sm:p-4 bg-white/95 border-2 border-emerald-300 hover:border-emerald-500 rounded-2xl card-shadow bounce-hover text-center space-y-1.5 flex flex-col items-center justify-center min-h-[100px]">
+                        <span class="text-2xl sm:text-3xl block">📍</span>
+                        <h4 class="font-extrabold text-slate-800 text-xs sm:text-sm md:text-base">هَمْزَةُ الْقَطْعِ وَالْوَصْلِ</h4>
+                    </button>
+
+                    <button onclick="openGrammarTopic('pronouns')" class="p-3 sm:p-4 bg-white/95 border-2 border-pink-300 hover:border-pink-500 rounded-2xl card-shadow bounce-hover text-center space-y-1.5 flex flex-col items-center justify-center min-h-[100px]">
+                        <span class="text-2xl sm:text-3xl block">👥</span>
+                        <h4 class="font-extrabold text-slate-800 text-xs sm:text-sm md:text-base">الضَّمَائِرُ (أَنَا/أَنْتِ/هُوَ)</h4>
+                    </button>
+
+                    <button onclick="openGrammarTopic('ta-marbouta')" class="p-3 sm:p-4 bg-white/95 border-2 border-fuchsia-300 hover:border-fuchsia-500 rounded-2xl card-shadow bounce-hover text-center space-y-1.5 flex flex-col items-center justify-center col-span-2 sm:col-span-1 min-h-[100px]">
+                        <span class="text-2xl sm:text-3xl block">🎀</span>
+                        <h4 class="font-extrabold text-slate-800 text-xs sm:text-sm md:text-base">التَّاءُ الْمَرْبُوطَةُ وَالْمَفْتُوحَةُ</h4>
+                    </button>
+                </div>
+            </section>
+
+        </div>
+
+
+        <!-- 1. EXPLORER MODULE -->
+        <section id="mod-explorer" class="hidden space-y-4 sm:space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+                <button onclick="closeCurrentModule()" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-white border border-pink-200 text-pink-700 font-bold hover:bg-pink-50 flex items-center gap-1.5 text-xs sm:text-sm shadow-sm">
+                    <i class="fa-solid fa-arrow-right"></i> الْعَوْدَةُ لِلرَّئِيسِيَّةِ
+                </button>
+                <h3 class="text-base sm:text-xl font-black text-pink-600">مُسْتَكْشِفُ الْكَلِمَاتِ وَالحُرُوفِ 🌸</h3>
+                <div></div>
+            </div>
+
+            <div class="bg-gradient-to-r from-pink-500 via-purple-500 to-rose-500 rounded-3xl p-4 sm:p-8 text-white card-shadow flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-center">
+                <div id="exp-big-letter" class="text-4xl sm:text-7xl font-black bg-white/20 rounded-3xl w-20 h-20 sm:w-32 sm:h-32 flex items-center justify-center border-2 border-white/30 shadow-inner">أ</div>
+                <div class="flex flex-col items-center gap-1.5 sm:gap-3">
+                    <span class="text-[10px] sm:text-xs font-bold text-pink-100">اضْغَطِي عَلَى الْكَلِمَةِ لِلِاسْتِمَاعِ:</span>
+                    <button onclick="speakExplorerCurrentWord()" class="bg-white text-pink-700 hover:bg-pink-50 px-5 sm:px-8 py-2.5 sm:py-4 rounded-2xl font-black text-lg sm:text-3xl shadow-lg flex items-center justify-center gap-2 sm:gap-3 transition hover:scale-105 active:scale-95">
+                        <span id="exp-word">أَرْنَبٌ 🐰</span>
+                        <i class="fa-solid fa-volume-high text-pink-500 text-base sm:text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white/95 rounded-3xl p-3 sm:p-6 border-2 border-pink-100 card-shadow">
+                <div id="explorer-grid" class="grid grid-cols-4 sm:grid-cols-7 md:grid-cols-9 gap-1.5 sm:gap-3 justify-items-center"></div>
+            </div>
+        </section>
+
+        <!-- 2. WORD BUILDER MODULE -->
+        <section id="mod-builder" class="hidden space-y-4 sm:space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+                <button onclick="closeCurrentModule()" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-white border border-fuchsia-200 text-fuchsia-700 font-bold hover:bg-fuchsia-50 flex items-center gap-1.5 text-xs sm:text-sm shadow-sm">
+                    <i class="fa-solid fa-arrow-right"></i> الْعَوْدَةُ لِلرَّئِيسِيَّةِ
+                </button>
+                <h3 class="text-base sm:text-xl font-black text-fuchsia-600">صَانِعُ الْكَلِمَاتِ 🧩</h3>
+                <span class="text-xs font-bold text-slate-500" id="builder-step">المرحلة 1</span>
+            </div>
+
+            <div id="builder-card" class="bg-white/95 rounded-3xl p-4 sm:p-8 border-2 border-fuchsia-100 card-shadow flex flex-col items-center justify-center text-center space-y-3 sm:space-y-6 transition">
+                <div id="builder-emoji" class="w-20 h-20 sm:w-32 sm:h-32 bg-fuchsia-50 rounded-3xl flex items-center justify-center text-4xl sm:text-7xl shadow-inner border border-fuchsia-200 mx-auto">✍️</div>
+                <p id="builder-hint" class="text-xs sm:text-sm font-bold text-slate-500">رِتِّبِي الحُرُوفَ لِتَكْوِينِ الكَلِمَةِ الثُّلاَثِيَّةِ (اضغطي على الخانة لإلغاء الحرف)</p>
+
+                <div id="builder-slots" class="flex flex-wrap justify-center items-center gap-2 sm:gap-3 mx-auto"></div>
+
+                <div class="w-full pt-3 border-t border-slate-100 text-center">
+                    <p class="text-xs font-bold text-slate-400 mb-2.5">اضْغَطِي عَلَى الحُرُوفِ لِتَرْتِيبِهَا:</p>
+                    <div id="builder-options" class="flex flex-wrap justify-center items-center gap-2 sm:gap-3 mx-auto"></div>
+                </div>
+
+                <div class="flex justify-center gap-2 sm:gap-3 flex-wrap">
+                    <button onclick="resetBuilderSelection()" class="px-3.5 sm:px-5 py-2 sm:py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition">
+                        <i class="fa-solid fa-rotate-left ml-1"></i> إعادة المحاولة
+                    </button>
+                    <button id="builder-check-btn" onclick="checkBuilderAnswer()" class="px-5 sm:px-8 py-2 sm:py-3 rounded-2xl bg-fuchsia-500 hover:bg-fuchsia-600 text-white font-extrabold text-xs sm:text-lg shadow-lg transition">
+                        تحقق من الإجابة <i class="fa-solid fa-check mr-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. WORD ANALYSIS MODULE -->
+        <section id="mod-analysis" class="hidden space-y-4 sm:space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+                <button onclick="closeCurrentModule()" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-white border border-purple-200 text-purple-700 font-bold flex items-center gap-1.5 text-xs sm:text-sm shadow-sm">
+                    <i class="fa-solid fa-arrow-right"></i> الْعَوْدَةُ لِلرَّئِيسِيَّةِ
+                </button>
+                <h3 class="text-base sm:text-xl font-black text-purple-600">تَحْلِيلُ الْكَلِمَاتِ إِلَى مَقَاطِعَ</h3>
+                <span class="text-xs font-bold text-slate-500" id="analysis-step">المرحلة 1</span>
+            </div>
+
+            <div id="analysis-card" class="bg-white/95 rounded-3xl p-4 sm:p-8 border-2 border-purple-100 card-shadow text-center space-y-3 sm:space-y-6 transition flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-purple-600 bg-purple-50 px-3 py-1 rounded-full">فكّكي الكلمة التالية إلى مقاطعها الصحيحة</span>
+                <h2 id="analysis-word" class="text-2xl sm:text-4xl md:text-5xl font-black text-slate-800 tracking-wider">مَدْرَسَةٌ</h2>
+
+                <div id="analysis-slots" class="flex justify-center items-center gap-2 sm:gap-3 dir-rtl flex-wrap mx-auto"></div>
+
+                <div class="pt-3 border-t w-full">
+                    <p class="text-xs font-bold text-slate-400 mb-2.5">اختر المقاطع بالترتيب:</p>
+                    <div id="analysis-options" class="flex justify-center items-center gap-2 sm:gap-3 flex-wrap mx-auto"></div>
+                </div>
+
+                <div class="flex justify-center gap-2 sm:gap-3 flex-wrap">
+                    <button onclick="resetAnalysisSelection()" class="px-3.5 sm:px-5 py-2 sm:py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition">
+                        <i class="fa-solid fa-rotate-left ml-1"></i> إعادة
+                    </button>
+                    <button id="analysis-check-btn" onclick="checkAnalysisAnswer()" class="px-5 sm:px-8 py-2 sm:py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-2xl font-extrabold text-xs sm:text-lg shadow transition">
+                        تحقق الآن <i class="fa-solid fa-check mr-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. MADD & SUKUN MODULE -->
+        <section id="mod-madd-sukun" class="hidden space-y-4 sm:space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+                <button onclick="closeCurrentModule()" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-white border border-rose-200 text-rose-700 font-bold flex items-center gap-1.5 text-xs sm:text-sm shadow-sm">
+                    <i class="fa-solid fa-arrow-right"></i> الْعَوْدَةُ لِلرَّئِيسِيَّةِ
+                </button>
+                <h3 class="text-base sm:text-xl font-black text-rose-600">حُرُوفُ الْمَدِّ وَالْمَقْطَعُ السَّاكِنُ 🔊</h3>
+                <div></div>
+            </div>
+
+            <div class="bg-white/95 rounded-3xl p-4 sm:p-8 border-2 border-rose-100 card-shadow text-center space-y-3 sm:space-y-6 flex flex-col items-center justify-center">
+                <div class="bg-rose-50 p-3 sm:p-4 rounded-2xl border border-rose-200 mx-auto w-full max-w-md">
+                    <span class="text-xs font-bold text-rose-600 block mb-1">اسْتَمِعِي ثُمَّ حَدِّدِي نَوْعَ الصَّوْتِ:</span>
+                    <h2 id="madd-word-display" class="text-2xl sm:text-4xl font-black text-slate-800">قَالـَ</h2>
+                </div>
+
+                <div class="flex justify-center gap-3">
+                    <button onclick="speakMaddWord()" class="px-3.5 sm:px-5 py-1.5 sm:py-2.5 bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs sm:text-sm rounded-xl shadow flex items-center gap-1.5">
+                        <i class="fa-solid fa-volume-high"></i> نطق الكلمة
+                    </button>
+                </div>
+
+                <div id="madd-options" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4 max-w-xl w-full mx-auto pt-2 justify-items-center"></div>
+            </div>
+        </section>
+
+        <!-- 5. PYRAMID READING MODULE -->
+        <section id="mod-pyramid-reading" class="hidden space-y-4 sm:space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+                <button onclick="closeCurrentModule()" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-white border border-pink-200 text-pink-700 font-bold flex items-center gap-1.5 text-xs sm:text-sm shadow-sm">
+                    <i class="fa-solid fa-arrow-right"></i> الْعَوْدَةُ لِلرَّئِيسِيَّةِ
+                </button>
+                <h3 class="text-base sm:text-xl font-black text-pink-600">الْقِرَاءَةُ الْهَرَمِيَّةُ لِلْمُبْتَدِئِينَ 📐</h3>
+                <div></div>
+            </div>
+
+            <div class="bg-white/95 rounded-3xl p-4 sm:p-8 border-2 border-pink-100 card-shadow space-y-3 sm:space-y-6 text-center flex flex-col items-center justify-center">
+                <p class="text-xs sm:text-sm font-bold text-slate-500">اقْرَأِي الكَلِمَاتِ وَالجُمَلَ؛ اضْغَطِي عَلَى كُلِّ كَلِمَةٍ أَوْ جُمْلَةٍ لِلِاسْتِمَاعِ:</p>
+
+                <div id="pyramid-container" class="space-y-2.5 sm:space-y-4 max-w-xl w-full mx-auto"></div>
+
+                <button onclick="nextPyramidLevel()" class="px-4 sm:px-6 py-2 sm:py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-2xl font-black text-xs sm:text-sm shadow-md mt-2 mx-auto">
+                    الجُمْلَةُ التَّالِيَةُ <i class="fa-solid fa-arrow-left mr-1"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- 6. STORIES MODULE -->
+        <section id="mod-stories" class="hidden space-y-4 sm:space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+                <button onclick="closeCurrentModule()" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-white border border-purple-200 text-purple-700 font-bold flex items-center gap-1.5 text-xs sm:text-sm shadow-sm">
+                    <i class="fa-solid fa-arrow-right"></i> الْعَوْدَةُ لِلرَّئِيسِيَّةِ
+                </button>
+                <h3 class="text-base sm:text-xl font-black text-purple-600">مَجْمُوعَةُ القِصَصِ القَصِيرَةِ 📖</h3>
+                <span id="story-counter" class="text-xs font-bold bg-purple-100 text-purple-800 px-3 py-1 rounded-full">القصة 1 من 5</span>
+            </div>
+
+            <div class="bg-white/95 rounded-3xl p-4 sm:p-8 border-2 border-purple-100 card-shadow space-y-3 sm:space-y-6">
+                <div class="bg-purple-50/80 p-3.5 sm:p-6 rounded-2xl border border-purple-200 space-y-2 sm:space-y-3 text-center">
+                    <div class="flex flex-wrap justify-center items-center gap-2">
+                        <h3 id="story-title" class="text-lg sm:text-2xl font-black text-purple-800">قِصَّةُ النَّحْلَةِ</h3>
+                    </div>
+                    <p id="story-text" class="text-sm sm:text-lg leading-relaxed font-bold text-slate-700"></p>
+                </div>
+
+                <div class="space-y-2 sm:space-y-4 text-center">
+                    <h4 id="story-question" class="text-sm sm:text-lg font-black text-slate-800">السُّؤَالُ:</h4>
+                    <div id="story-options" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 max-w-xl mx-auto justify-items-center"></div>
+                </div>
+
+                <div class="flex justify-between items-center pt-3 border-t border-slate-100">
+                    <button onclick="prevStory()" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1">
+                        <i class="fa-solid fa-chevron-right"></i> القصة السابقة
+                    </button>
+                    <button onclick="nextStory()" class="px-3.5 py-1.5 sm:px-5 sm:py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs flex items-center gap-1 shadow">
+                        القصة التالية <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6.5 SYNONYMS & ANTONYMS MODULE -->
+        <section id="mod-syn-ant" class="hidden space-y-4 sm:space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+                <button onclick="closeCurrentModule()" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-white border border-pink-200 text-pink-700 font-bold flex items-center gap-1.5 text-xs sm:text-sm shadow-sm">
+                    <i class="fa-solid fa-arrow-right"></i> الْعَوْدَةُ لِلرَّئِيسِيَّةِ
+                </button>
+                <h3 class="text-base sm:text-xl font-black text-pink-600">التَّضَادُّ وَالتَّرَادُفُ ⚖️</h3>
+                <span id="syn-ant-step" class="text-xs font-bold bg-pink-100 text-pink-800 px-3 py-1 rounded-full">السؤال 1 من 15</span>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div class="flex justify-center items-center gap-2 sm:gap-3 mx-auto flex-wrap">
+                <button id="tab-antonyms" onclick="switchSynAntTab('antonyms')" class="px-3.5 sm:px-6 py-1.5 sm:py-2.5 rounded-2xl font-black text-xs sm:text-sm transition shadow bg-pink-500 text-white">
+                    ⚖️ التَّضَادُّ (15 كَلِمَةً)
+                </button>
+                <button id="tab-synonyms" onclick="switchSynAntTab('synonyms')" class="px-3.5 sm:px-6 py-1.5 sm:py-2.5 rounded-2xl font-black text-xs sm:text-sm transition bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">
+                    🔗 التَّرَادُفُ (15 كَلِمَةً)
+                </button>
+            </div>
+
+            <div class="bg-white/95 rounded-3xl p-4 sm:p-8 border-2 border-pink-100 card-shadow text-center space-y-3 sm:space-y-6 flex flex-col items-center justify-center">
+                <div class="bg-pink-50 p-3 sm:p-4 rounded-2xl border border-pink-200 mx-auto w-full max-w-md">
+                    <span id="syn-ant-prompt-type" class="text-xs font-bold text-pink-600 block mb-1">ما ضِدُّ الكَلِمَةِ التَّالِيَةِ؟</span>
+                    <h2 id="syn-ant-target-word" class="text-2xl sm:text-4xl font-black text-slate-800">كَبِيرٌ</h2>
+                </div>
+
+                <div id="syn-ant-options" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4 max-w-xl w-full mx-auto pt-2 justify-items-center"></div>
+            </div>
+        </section>
+
+        <!-- 7. GRAMMAR INTERACTIVE TOPIC MODULE -->
+        <section id="mod-grammar-interactive" class="hidden space-y-4 sm:space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+                <button onclick="closeCurrentModule()" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-white border border-rose-200 text-rose-700 font-bold flex items-center gap-1.5 text-xs sm:text-sm shadow-sm">
+                    <i class="fa-solid fa-arrow-right"></i> الْعَوْدَةُ لِلرَّئِيسِيَّةِ
+                </button>
+                <h3 id="grammar-topic-title" class="text-base sm:text-xl font-black text-rose-600">التَّرَاكِيبُ اللُّغَوِيَّةُ</h3>
+                <span id="grammar-step" class="text-xs font-bold bg-rose-100 text-rose-800 px-3 py-1 rounded-full">السؤال 1 من 10</span>
+            </div>
+
+            <div class="bg-white/95 rounded-3xl p-4 sm:p-8 border-2 border-rose-100 card-shadow text-center space-y-3 sm:space-y-6 flex flex-col items-center justify-center">
+                <div id="grammar-badge" class="inline-block bg-rose-100 text-rose-800 font-black px-3.5 py-1 rounded-full text-xs sm:text-sm mx-auto">تَدْرِيبٌ تَفَاعُلِيٌّ</div>
+                <h3 id="grammar-question" class="text-base sm:text-2xl font-black text-slate-800">اخْتَرِ الإِجَابَةَ الصَّحِيحَةَ:</h3>
+
+                <div id="grammar-target-word" class="text-2xl sm:text-4xl font-black text-rose-600 py-1.5">الشَّمْسُ</div>
+
+                <div id="grammar-options" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-4 max-w-xl w-full mx-auto justify-items-center"></div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- WIN / CELEBRATION MODAL -->
+    <div id="win-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-md w-full p-5 sm:p-8 text-center space-y-3 sm:space-y-5 card-shadow border-4 border-pink-300">
+            <div class="w-16 h-16 sm:w-24 sm:h-24 bg-pink-100 rounded-full flex items-center justify-center text-4xl sm:text-6xl mx-auto animate-bounce">👑</div>
+            <h3 class="text-xl sm:text-3xl font-black text-pink-600">أَحْسَنْتِ يا بَطَلَةُ! ✨</h3>
+            <p id="win-modal-desc" class="text-slate-600 font-bold text-xs sm:text-base">لَقَدْ أَجَبْتِ إِجَابَةً صَحِيحَةً وَمُمَيَّزَةً!</p>
+            <div class="bg-pink-50 p-2.5 sm:p-3 rounded-2xl border border-pink-200 font-black text-pink-800 text-sm sm:text-lg">+10 نُجُومٌ إِضَافِيَّةٌ ⭐</div>
+            <button onclick="closeWinModal()" class="w-full py-2.5 sm:py-3.5 bg-pink-500 hover:bg-pink-600 text-white font-extrabold text-sm sm:text-lg rounded-2xl shadow">مُتَابَابَعَةُ التَّحَدِّي 🚀</button>
+        </div>
+    </div>
+
+    <!-- CERTIFICATE MODAL -->
+    <div id="certificate-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-gradient-to-br from-amber-50 via-white to-pink-50 rounded-3xl max-w-2xl w-full p-5 sm:p-8 text-center space-y-4 sm:space-y-6 card-shadow border-4 sm:border-8 border-amber-300 relative overflow-hidden">
+            <div class="absolute top-3 right-3 text-xl sm:text-3xl text-amber-400">✨</div>
+            <div class="absolute top-3 left-3 text-xl sm:text-3xl text-amber-400">⭐</div>
+            <div class="absolute bottom-3 right-3 text-xl sm:text-3xl text-pink-400">🌸</div>
+            <div class="absolute bottom-3 left-3 text-xl sm:text-3xl text-emerald-400">🌿</div>
+
+            <div class="border-2 sm:border-4 border-dashed border-amber-200 p-3.5 sm:p-6 rounded-2xl space-y-2.5 sm:space-y-4">
+                <div class="w-14 h-14 sm:w-20 sm:h-20 bg-gradient-to-tr from-amber-400 to-pink-500 rounded-full flex items-center justify-center text-2xl sm:text-4xl text-white mx-auto shadow-md">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+
+                <h2 class="text-xl sm:text-4xl font-black text-purple-800">شَهَادَةُ تَقْدِيرٍ وَتَفَوُّقٍ 📜</h2>
+
+                <p class="text-slate-600 font-extrabold text-xs sm:text-lg leading-relaxed">
+                    تَشْهَدُ إِدَارَةُ المَنْهَجِ بِأَنَّ الطَّالِبَةَ المُمَيَّزَةَ قَدْ أَتَمَّتْ بِنَجَاحٍ
+                    <br>
+                    <span class="text-pink-600 text-base sm:text-2xl font-black">« رِحْلَةَ تَعَلُّمٍ فِي عَالَمِ لُغَتِي »</span>
+                </p>
+
+                <div class="bg-gradient-to-r from-pink-100 via-amber-100 to-emerald-100 p-2.5 sm:p-4 rounded-2xl border border-amber-300 my-2 sm:my-4 shadow-sm">
+                    <p class="text-lg sm:text-3xl font-black text-rose-600 animate-pulse">
+                        مُمْتَازَةٌ وَإِلَى الأَمَامِ يَا صَغِيرَتِي 🌸✨
+                    </p>
+                </div>
+
+                <div class="flex justify-between items-center pt-2.5 sm:pt-4 border-t border-amber-200 text-xs sm:text-sm font-black text-slate-700">
+                    <div class="text-right">
+                        <p class="text-emerald-700">المَادَّةُ: لُغَتِي الْجَمِيلَةُ</p>
+                        <p class="text-slate-500 text-[10px] sm:text-xs">الصَّفُّ الأَوَّلُ وَالثَّانِي</p>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-purple-700">إِعْدَادُ الْمُعَلِّمَةِ:</p>
+                        <p class="text-pink-600 font-extrabold text-xs sm:text-base">مَهَا صَالِح الشَّمَرِيِّ 💐</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-2 sm:gap-3 no-print">
+                <button onclick="window.print()" class="flex-1 py-2 sm:py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-base rounded-2xl shadow flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-print"></i> طِبَاعَةُ الشَّهَادَةِ
+                </button>
+                <button onclick="closeCertificateModal()" class="px-4 sm:px-6 py-2 sm:py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-black text-xs sm:text-base rounded-2xl">
+                    إِغْلاَقٌ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ================= STATE & AUDIO MANAGEMENT ================= */
+        let state = {
+            stars: parseInt(localStorage.getItem('arabic_app_stars')) || 0,
+            soundEnabled: true,
+            activeModule: null
+        };
+
+        // Saved scroll position to preserve view position on return
+        let savedScrollPosition = 0;
+
+        const synth = window.speechSynthesis;
+        let arabicVoice = null;
+        let speechDebounceTimer = null;
+
+        function loadArabicVoice() {
+            if (!synth) return;
+            try {
+                const voices = synth.getVoices();
+                arabicVoice = voices.find(v => v.lang.startsWith('ar-SA') || v.lang.startsWith('ar')) || null;
+            } catch(e) {}
+        }
+
+        if (speechSynthesis && speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadArabicVoice;
+        }
+        loadArabicVoice();
+
+        // Audio Context initialization with auto-resume unlock on mobile/iPad touch
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function unlockAudio() {
+            if (!audioCtx) {
+                try { audioCtx = new AudioContext(); } catch(e){}
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Global touch unlock listener for mobile & iOS
+        window.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
+        window.addEventListener('click', unlockAudio, { once: true, passive: true });
+
+        function speakText(text) {
+            if (!state.soundEnabled || !synth) return;
+
+            if (speechDebounceTimer) {
+                clearTimeout(speechDebounceTimer);
+                speechDebounceTimer = null;
+            }
+
+            const cleanText = text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').trim();
+            if (!cleanText) return;
+
+            try {
+                synth.cancel();
+            } catch(e) {}
+
+            speechDebounceTimer = setTimeout(() => {
+                try {
+                    const utterance = new SpeechSynthesisUtterance(cleanText);
+                    utterance.lang = 'ar-SA';
+                    if (arabicVoice) utterance.voice = arabicVoice;
+
+                    utterance.rate = 0.85;
+                    utterance.pitch = 1.0;
+                    synth.speak(utterance);
+                } catch(e) {
+                    console.warn("Speech synthesis error:", e);
+                }
+            }, 120);
+        }
+
+        function playSFX(type) {
+            if (!state.soundEnabled) return;
+            try {
+                unlockAudio();
+                if (!audioCtx) return;
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.12);
+                    osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.25);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+
+                    if (window.confetti) confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(180, now);
+                    osc.frequency.linearRampToValueAtTime(120, now + 0.25);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'win') {
+                    if (window.confetti) confetti({ particleCount: 100, spread: 80, origin: { y: 0.5 } });
+                }
+            } catch(e) {}
+        }
+
+        function toggleSound() {
+            state.soundEnabled = !state.soundEnabled;
+            document.getElementById('sound-icon').className = state.soundEnabled ? 'fa-solid fa-volume-high text-xs sm:text-base' : 'fa-solid fa-volume-xmark text-xs sm:text-base text-rose-500';
+            if (!state.soundEnabled && synth) {
+                try { synth.cancel(); } catch(e){}
+            }
+        }
+
+        function addStars(num) {
+            state.stars += num;
+            localStorage.setItem('arabic_app_stars', state.stars);
+            document.getElementById('star-count').innerText = state.stars;
+        }
+
+        /* Copy Direct App Link cleanly without Ads */
+        function copyAppLink() {
+            const url = window.location.href;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(showCopyToast).catch(() => fallbackCopy(url));
+            } else {
+                fallbackCopy(url);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const dummy = document.createElement("input");
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+            showCopyToast();
+        }
+
+        function showCopyToast() {
+            playSFX('correct');
+            const toast = document.getElementById('toast-notify');
+            if (!toast) return;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+
+        const ALL_LETTERS_DATA = [
+            { name: 'أ - أَلِف', initial: 'أَ', medial: 'ـأَ', final: 'ـأَ', isolated: 'أَ', word: 'أَرْنَبٌ 🐰' },
+            { name: 'ب - بَاء', initial: 'بَـ', medial: 'ـبَـ', final: 'ـبَ', isolated: 'بَ', word: 'بَيْتٌ 🏠' },
+            { name: 'ت - تَاء', initial: 'تَـ', medial: 'ـتَـ', final: 'ـتَ', isolated: 'تَ', word: 'تِمْسَاحٌ 🐊' },
+            { name: 'ث - ثَاء', initial: 'ثَـ', medial: 'ـثَـ', final: 'ـثَ', isolated: 'ثَ', word: 'ثَوْبٌ 👔' },
+            { name: 'ج - جِيم', initial: 'جَـ', medial: 'ـجَـ', final: 'ـجَ', isolated: 'جَ', word: 'جَمَلٌ 🐪' },
+            { name: 'ح - حَاء', initial: 'حَـ', medial: 'ـحَـ', final: 'ـحَ', isolated: 'حَ', word: 'حِصَانٌ 🐎' },
+            { name: 'خ - خَاء', initial: 'خَـ', medial: 'ـخَـ', final: 'ـخَ', isolated: 'خَ', word: 'خَارُوفٌ 🐑' },
+            { name: 'د - دَال', initial: 'دَ', medial: 'ـدَ', final: 'ـدَ', isolated: 'دَ', word: 'دَرَّاجَةٌ 🚲' },
+            { name: 'ذ - ذَال', initial: 'ذَ', medial: 'ـذَ', final: 'ـذَ', isolated: 'ذَ', word: 'ذُبَابَةٌ 🪰' },
+            { name: 'ر - رَاء', initial: 'رَ', medial: 'ـرَ', final: 'ـرَ', isolated: 'رَ', word: 'رُمَّانٌ 🍎' },
+            { name: 'ز - زَاي', initial: 'زَ', medial: 'ـزَ', final: 'ـزَ', isolated: 'زَ', word: 'زَهْرَةٌ 🌸' },
+            { name: 'س - سِين', initial: 'سَـ', medial: 'ـسَـ', final: 'ـسَ', isolated: 'سَ', word: 'سَمَكَةٌ 🐟' },
+            { name: 'ش - شِين', initial: 'شَـ', medial: 'ـشَـ', final: 'ـشَ', isolated: 'شَ', word: 'شَمْسٌ ☀️' },
+            { name: 'ص - صَاد', initial: 'صَـ', medial: 'ـصَـ', final: 'ـصَ', isolated: 'صَ', word: 'صُوصٌ 🐥' },
+            { name: 'ض - ضَاد', initial: 'ضَـ', medial: 'ـضَـ', final: 'ـضَ', isolated: 'ضَ', word: 'ضَفْدَعٌ 🐸' },
+            { name: 'ط - طَاء', initial: 'طَـ', medial: 'ـطَـ', final: 'ـطَ', isolated: 'طَ', word: 'طَائِرَةٌ ✈' },
+            { name: 'ظ - ظَاء', initial: 'ظَـ', medial: 'ـظَـ', final: 'ـظَ', isolated: 'ظَ', word: 'ظَرْفٌ ✉️' },
+            { name: 'ع - عَيْن', initial: 'عَـ', medial: 'ـعَـ', final: 'ـعَ', isolated: 'عَ', word: 'عِنَبٌ 🍇' },
+            { name: 'غ - غَيْن', initial: 'غَـ', medial: 'ـغَـ', final: 'ـغَ', isolated: 'غَ', word: 'غَيْمَةٌ ☁️' },
+            { name: 'ف - فَاء', initial: 'فَـ', medial: 'ـفَـ', final: 'ـفَ', isolated: 'فَ', word: 'فِيلٌ 🐘' },
+            { name: 'ق - قَاف', initial: 'قَـ', medial: 'ـقَـ', final: 'ـقَ', isolated: 'قَ', word: 'قَمَرٌ 🌙' },
+            { name: 'ك - كَاف', initial: 'كَـ', medial: 'ـكَـ', final: 'ـكَ', isolated: 'كَ', word: 'كِتَابٌ 📚' },
+            { name: 'ل - لاَم', initial: 'لَـ', medial: 'ـلَـ', final: 'ـلَ', isolated: 'لَ', word: 'لَيْمُونٌ 🍋' },
+            { name: 'م - مِيم', initial: 'مَـ', medial: 'ـمَـ', final: 'ـمَ', isolated: 'مَ', word: 'مَوْزٌ 🍌' },
+            { name: 'ن - نُون', initial: 'نَـ', medial: 'ـنَـ', final: 'ـنَ', isolated: 'نَ', word: 'نَحْلَةٌ 🐝' },
+            { name: 'هـ - هَاء', initial: 'هَـ', medial: 'ـهَـ', final: 'ـهَ', isolated: 'هَ', word: 'هَدِيَّةٌ 🎁' },
+            { name: 'و - وَاو', initial: 'وَ', medial: 'ـوَ', final: 'ـوَ', isolated: 'وَ', word: 'وَرَدَةٌ 🌹' },
+            { name: 'ي - يَاء', initial: 'يَـ', medial: 'ـيَـ', final: 'ـيَ', isolated: 'يَ', word: 'يَدٌ ✋' }
+        ];
+
+        const WRITING_TARGET_WORDS = [
+            { word: 'كَتَبَ', breakdown: 'كَـ + ـتَـ + ـبَ' },
+            { word: 'قَرَأَ', breakdown: 'قَـ + ـرَ + أَ' },
+            { word: 'رَسَمَ', breakdown: 'رَ + سَـ + ـمَ' },
+            { word: 'لَعِبَ', breakdown: 'لَـ + ـعِـ + ـبَ' },
+            { word: 'شَرِبَ', breakdown: 'شَـ + ـرِ + ـبَ' },
+            { word: 'جَلَسَ', breakdown: 'جَـ + ـلَـ + ـسَ' },
+            { word: 'فَتَحَ', breakdown: 'فَـ + ـتَـ + ـحَ' },
+            { word: 'غَسَلَ', breakdown: 'غَـ + ـسَـ + ـلَ' },
+            { word: 'صَنَعَ', breakdown: 'صَـ + ـنَـ + ـعَ' },
+            { word: 'حَفِظَ', breakdown: 'حَـ + ـفِـ + ـظَ' }
+        ];
+        let currentWritingWordIdx = 0;
+
+        let canvas, ctx;
+        let isDrawing = false;
+
+        function initCanvas() {
+            canvas = document.getElementById('writing-canvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            populateBoardLettersSelect();
+            loadLetterPositions();
+
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseleave', stopDrawing);
+
+            // Touch events for mobile/tablet/iPad
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                unlockAudio();
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                isDrawing = true;
+                ctx.beginPath();
+                ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+            }, { passive: false });
+
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (!isDrawing) return;
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                ctx.strokeStyle = document.getElementById('draw-color').value;
+                ctx.lineWidth = document.getElementById('draw-size').value;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+                ctx.stroke();
+            }, { passive: false });
+
+            canvas.addEventListener('touchend', stopDrawing, { passive: true });
+        }
+
+        function resizeCanvas() {
+            if (!canvas || !canvas.parentElement) return;
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height || 260;
+            clearCanvas();
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            ctx.strokeStyle = document.getElementById('draw-color').value;
+            ctx.lineWidth = document.getElementById('draw-size').value;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function clearCanvas() {
+            if (!ctx || !canvas) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function populateBoardLettersSelect() {
+            const sel = document.getElementById('board-letter-select');
+            if (!sel) return;
+            sel.innerHTML = ALL_LETTERS_DATA.map((item, idx) => `
+                <option value="${idx}">${item.name}</option>
+            `).join('');
+        }
+
+        function loadLetterPositions() {
+            const sel = document.getElementById('board-letter-select');
+            if (!sel) return;
+            const idx = parseInt(sel.value) || 0;
+            const item = ALL_LETTERS_DATA[idx];
+            if (!item) return;
+
+            document.getElementById('pos-initial').innerText = item.initial;
+            document.getElementById('pos-medial').innerText = item.medial;
+            document.getElementById('pos-final').innerText = item.final;
+            document.getElementById('pos-isolated').innerText = item.isolated;
+        }
+
+        function speakSelectedBoardLetter() {
+            const sel = document.getElementById('board-letter-select');
+            if (!sel) return;
+            const idx = parseInt(sel.value) || 0;
+            const item = ALL_LETTERS_DATA[idx];
+            if (item) speakText(item.word);
+        }
+
+        function speakCurrentWritingWord() {
+            const item = WRITING_TARGET_WORDS[currentWritingWordIdx];
+            if (item) speakText(item.word);
+        }
+
+        function nextWritingWord() {
+            currentWritingWordIdx = (currentWritingWordIdx + 1) % WRITING_TARGET_WORDS.length;
+            const item = WRITING_TARGET_WORDS[currentWritingWordIdx];
+            document.getElementById('writing-target-word').innerText = `${item.word} ( ${item.breakdown} )`;
+            speakText(item.word);
+        }
+
+        function goHome() {
+            closeCurrentModule();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openModule(modId) {
+            savedScrollPosition = window.scrollY || window.pageYOffset || 0;
+            state.activeModule = modId;
+            document.getElementById('main-dashboard').classList.add('hidden');
+            document.getElementById('quick-nav-bar').classList.add('hidden');
+
+            const modSec = document.getElementById(`mod-${modId}`);
+            if (modSec) modSec.classList.remove('hidden');
+
+            if (modId === 'explorer') initExplorer();
+            else if (modId === 'builder') initBuilder();
+            else if (modId === 'analysis') initAnalysis();
+            else if (modId === 'madd-sukun') initMaddSukun();
+            else if (modId === 'pyramid-reading') initPyramidReading();
+        }
+
+        function closeCurrentModule() {
+            if (synth) {
+                try { synth.cancel(); } catch(e) {}
+            }
+
+            if (state.activeModule) {
+                const activeSec = document.getElementById(`mod-${state.activeModule}`);
+                if (activeSec) activeSec.classList.add('hidden');
+                state.activeModule = null;
+            }
+
+            ['explorer', 'builder', 'analysis', 'madd-sukun', 'pyramid-reading', 'stories', 'syn-ant', 'grammar-interactive'].forEach(id => {
+                const el = document.getElementById(`mod-${id}`);
+                if (el) el.classList.add('hidden');
+            });
+
+            document.getElementById('main-dashboard').classList.remove('hidden');
+            document.getElementById('quick-nav-bar').classList.remove('hidden');
+
+            setTimeout(() => {
+                window.scrollTo(0, savedScrollPosition);
+            }, 10);
+        }
+
+        let currentExplorerIdx = 0;
+        function initExplorer() {
+            const grid = document.getElementById('explorer-grid');
+            if (!grid) return;
+            grid.innerHTML = ALL_LETTERS_DATA.map((item, idx) => `
+                <button onclick="selectExplorerLetter(${idx})" class="p-1.5 sm:p-2.5 rounded-2xl border-2 ${idx === currentExplorerIdx ? 'border-pink-500 bg-pink-100 scale-105' : 'border-pink-200 bg-white hover:bg-pink-50'} text-center font-black transition shadow-sm flex flex-col items-center justify-center gap-0.5 w-full min-h-[58px]">
+                    <span class="text-lg sm:text-2xl text-pink-700">${item.isolated}</span>
+                    <span class="text-[9px] sm:text-xs text-slate-500">${item.word.split(' ')[0]}</span>
+                </button>
+            `).join('');
+            selectExplorerLetter(currentExplorerIdx, false);
+        }
+
+        function selectExplorerLetter(idx, autoSpeak = true) {
+            currentExplorerIdx = idx;
+            const item = ALL_LETTERS_DATA[idx];
+            if (!item) return;
+
+            document.getElementById('exp-big-letter').innerText = item.isolated;
+            document.getElementById('exp-word').innerText = item.word;
+
+            const grid = document.getElementById('explorer-grid');
+            if (grid && grid.children) {
+                Array.from(grid.children).forEach((btn, i) => {
+                    if (i === idx) {
+                        btn.className = "p-1.5 sm:p-2.5 rounded-2xl border-2 border-pink-500 bg-pink-100 scale-105 text-center font-black transition shadow-sm flex flex-col items-center justify-center gap-0.5 w-full min-h-[58px]";
+                    } else {
+                        btn.className = "p-1.5 sm:p-2.5 rounded-2xl border-2 border-pink-200 bg-white hover:bg-pink-50 text-center font-black transition shadow-sm flex flex-col items-center justify-center gap-0.5 w-full min-h-[58px]";
+                    }
+                });
+            }
+
+            if (autoSpeak) speakText(item.word);
+        }
+
+        function speakExplorerCurrentWord() {
+            const item = ALL_LETTERS_DATA[currentExplorerIdx];
+            if (item) speakText(item.word);
+        }
+
+        const BUILDER_DATA = [
+            { emoji: '✍️', word: 'كَتَبَ', letters: ['كَ', 'تَ', 'بَ'] },
+            { emoji: '📖', word: 'قَرَأَ', letters: ['قَ', 'رَ', 'أَ'] },
+            { emoji: '🎨', word: 'رَسَمَ', letters: ['رَ', 'سَ', 'مَ'] },
+            { emoji: '⚽', word: 'لَعِبَ', letters: ['لَ', 'عِ', 'بَ'] },
+            { emoji: '🪑', word: 'جَلَسَ', letters: ['جَ', 'لَ', 'سَ'] },
+            { emoji: '🚪', word: 'دَخَلَ', letters: ['دَ', 'خَ', 'لَ'] },
+            { emoji: '🍎', word: 'أَكَلَ', letters: ['أَ', 'كَ', 'لَ'] }
+        ];
+        let builderLevel = 0;
+        let builderSelected = [];
+
+        function initBuilder() {
+            const data = BUILDER_DATA[builderLevel];
+            if (!data) return;
+            builderSelected = [];
+
+            const stepEl = document.getElementById('builder-step');
+            if (stepEl) stepEl.innerText = `المرحلة ${builderLevel + 1} من ${BUILDER_DATA.length}`;
+
+            const emojiEl = document.getElementById('builder-emoji');
+            if (emojiEl) emojiEl.innerText = data.emoji;
+
+            renderBuilderSlots();
+
+            const shuffled = [...data.letters].sort(() => Math.random() - 0.5);
+            const optsEl = document.getElementById('builder-options');
+            if (optsEl) {
+                optsEl.innerHTML = shuffled.map(l => `
+                    <button onclick="selectBuilderLetter('${l}')" class="w-11 h-11 sm:w-16 sm:h-16 bg-fuchsia-100 border-2 border-fuchsia-300 hover:bg-fuchsia-200 text-fuchsia-900 font-black text-xl sm:text-3xl rounded-2xl shadow transition active:scale-95 flex items-center justify-center">
+                        ${l}
+                    </button>
+                `).join('');
+            }
+        }
+
+        function renderBuilderSlots() {
+            const data = BUILDER_DATA[builderLevel];
+            if (!data) return;
+            const slotsEl = document.getElementById('builder-slots');
+            if (!slotsEl) return;
+
+            slotsEl.innerHTML = data.letters.map((_, idx) => {
+                const val = builderSelected[idx] || '';
+                return `
+                    <div onclick="removeBuilderSlot(${idx})" class="letter-slot rounded-2xl flex items-center justify-center font-black text-xl sm:text-3xl text-pink-700 bg-white ${val ? 'filled' : ''}">
+                        ${val}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectBuilderLetter(l) {
+            const data = BUILDER_DATA[builderLevel];
+            if (!data || builderSelected.length >= data.letters.length) return;
+            builderSelected.push(l);
+            renderBuilderSlots();
+            speakText(l);
+        }
+
+        function removeBuilderSlot(idx) {
+            if (idx < builderSelected.length) {
+                builderSelected.splice(idx, 1);
+                renderBuilderSlots();
+            }
+        }
+
+        function resetBuilderSelection() {
+            builderSelected = [];
+            renderBuilderSlots();
+        }
+
+        function checkBuilderAnswer() {
+            const data = BUILDER_DATA[builderLevel];
+            if (!data) return;
+
+            if (builderSelected.join('') === data.letters.join('')) {
+                playSFX('correct');
+                addStars(10);
+                showWinModal(`إِجَابَةٌ صَحِيحَةٌ! الكَلِمَةُ هِيَ (${data.word})`);
+                builderLevel = (builderLevel + 1) % BUILDER_DATA.length;
+                setTimeout(initBuilder, 800);
+            } else {
+                playSFX('wrong');
+                const card = document.getElementById('builder-card');
+                if (card) {
+                    card.classList.add('shake-error', 'border-rose-400');
+                    setTimeout(() => card.classList.remove('shake-error', 'border-rose-400'), 500);
+                }
+            }
+        }
+
+        const ANALYSIS_DATA = [
+            { word: 'مَدْرَسَةٌ', parts: ['مَدْ', 'رَ', 'سَ', 'ةٌ'] },
+            { word: 'مَكْتَبَةٌ', parts: ['مَكْ', 'تَ', 'بَ', 'ةٌ'] },
+            { word: 'حَدِيقَةٌ', parts: ['حَ', 'دِيـ', 'قَ', 'ةٌ'] },
+            { word: 'حَقِيبَةٌ', parts: ['حَ', 'قِيـ', 'بَ', 'ةٌ'] },
+            { word: 'زَهْرَةٌ', parts: ['زَهْ', 'رَ', 'ةٌ'] }
+        ];
+        let analysisLevel = 0;
+        let analysisSelected = [];
+
+        function initAnalysis() {
+            const data = ANALYSIS_DATA[analysisLevel];
+            if (!data) return;
+            analysisSelected = [];
+
+            const stepEl = document.getElementById('analysis-step');
+            if (stepEl) stepEl.innerText = `المرحلة ${analysisLevel + 1} من ${ANALYSIS_DATA.length}`;
+
+            const wordEl = document.getElementById('analysis-word');
+            if (wordEl) wordEl.innerText = data.word;
+
+            renderAnalysisSlots();
+
+            const shuffled = [...data.parts].sort(() => Math.random() - 0.5);
+            const optsEl = document.getElementById('analysis-options');
+            if (optsEl) {
+                optsEl.innerHTML = shuffled.map(p => `
+                    <button onclick="selectAnalysisPart('${p}')" class="px-3.5 sm:px-5 py-2 sm:py-3 bg-purple-100 border-2 border-purple-300 hover:bg-purple-200 text-purple-900 font-black text-lg sm:text-2xl rounded-2xl shadow transition active:scale-95 flex items-center justify-center">
+                        ${p}
+                    </button>
+                `).join('');
+            }
+        }
+
+        function renderAnalysisSlots() {
+            const data = ANALYSIS_DATA[analysisLevel];
+            if (!data) return;
+            const slotsEl = document.getElementById('analysis-slots');
+            if (!slotsEl) return;
+
+            slotsEl.innerHTML = data.parts.map((_, idx) => {
+                const val = analysisSelected[idx] || '';
+                return `
+                    <div onclick="removeAnalysisSlot(${idx})" class="letter-slot rounded-2xl flex items-center justify-center font-black text-lg sm:text-2xl text-purple-700 bg-white ${val ? 'filled' : ''}">
+                        ${val}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectAnalysisPart(p) {
+            const data = ANALYSIS_DATA[analysisLevel];
+            if (!data || analysisSelected.length >= data.parts.length) return;
+            analysisSelected.push(p);
+            renderAnalysisSlots();
+            speakText(p);
+        }
+
+        function removeAnalysisSlot(idx) {
+            if (idx < analysisSelected.length) {
+                analysisSelected.splice(idx, 1);
+                renderAnalysisSlots();
+            }
+        }
+
+        function resetAnalysisSelection() {
+            analysisSelected = [];
+            renderAnalysisSlots();
+        }
+
+        function checkAnalysisAnswer() {
+            const data = ANALYSIS_DATA[analysisLevel];
+            if (!data) return;
+
+            if (analysisSelected.join('') === data.parts.join('')) {
+                playSFX('correct');
+                addStars(10);
+                showWinModal(`أَحْسَنْتِ! تَحْلِيلٌ صَحِيحٌ لِكَلِمَةِ (${data.word})`);
+                analysisLevel = (analysisLevel + 1) % ANALYSIS_DATA.length;
+                setTimeout(initAnalysis, 800);
+            } else {
+                playSFX('wrong');
+                const card = document.getElementById('analysis-card');
+                if (card) {
+                    card.classList.add('shake-error', 'border-rose-400');
+                    setTimeout(() => card.classList.remove('shake-error', 'border-rose-400'), 500);
+                }
+            }
+        }
+
+        const MADD_SUKUN_DATA = [
+            { word: 'قَالَ', options: ['مَدٌّ بِالأَلِفِ', 'مَدٌّ بِالْوَاوِ', 'مَقْطَعٌ سَاكِنٌ'], correct: 'مَدٌّ بِالأَلِفِ' },
+            { word: 'نُورٌ', options: ['مَدٌّ بِالْوَاوِ', 'مَدٌّ بِالْيَاءِ', 'مَقْطَعٌ سَاكِنٌ'], correct: 'مَدٌّ بِالْوَاوِ' },
+            { word: 'سَعِيدٌ', options: ['مَدٌّ بِالْيَاءِ', 'مَدٌّ بِالأَلِفِ', 'مَقْطَعٌ سَاكِنٌ'], correct: 'مَدٌّ بِالْيَاءِ' },
+            { word: 'مَدْرَسَةٌ', options: ['مَقْطَعٌ سَاكِنٌ (مَدْ)', 'مَدٌّ بِالأَلِفِ', 'مَدٌّ بِالْوَاوِ'], correct: 'مَقْطَعٌ سَاكِنٌ (مَدْ)' },
+            { word: 'بَيْتٌ', options: ['مَقْطَعٌ سَاكِنٌ (بَيْ)', 'مَدٌّ بِالْيَاءِ', 'مَدٌّ بِالأَلِفِ'], correct: 'مَقْطَعٌ سَاكِنٌ (بَيْ)' }
+        ];
+        let maddIdx = 0;
+
+        function initMaddSukun() {
+            const data = MADD_SUKUN_DATA[maddIdx];
+            if (!data) return;
+
+            document.getElementById('madd-word-display').innerText = data.word;
+
+            const optsEl = document.getElementById('madd-options');
+            if (optsEl) {
+                optsEl.innerHTML = data.options.map(opt => `
+                    <button onclick="checkMaddAnswer(this, '${opt}')" class="p-3 sm:p-4 bg-white border-2 border-rose-200 hover:border-rose-500 rounded-2xl font-black text-sm sm:text-lg text-slate-800 shadow transition active:scale-95 w-full flex items-center justify-center">
+                        ${opt}
+                    </button>
+                `).join('');
+            }
+            speakText(data.word);
+        }
+
+        function speakMaddWord() {
+            const data = MADD_SUKUN_DATA[maddIdx];
+            if (data) speakText(data.word);
+        }
+
+        function checkMaddAnswer(btnEl, selected) {
+            const data = MADD_SUKUN_DATA[maddIdx];
+            if (!data) return;
+
+            if (selected === data.correct) {
+                btnEl.classList.remove('border-rose-200', 'bg-white');
+                btnEl.classList.add('border-emerald-500', 'bg-emerald-100', 'text-emerald-900');
+                playSFX('correct');
+                addStars(10);
+                maddIdx = (maddIdx + 1) % MADD_SUKUN_DATA.length;
+                setTimeout(initMaddSukun, 600);
+            } else {
+                btnEl.classList.remove('border-rose-200', 'bg-white');
+                btnEl.classList.add('border-rose-500', 'bg-rose-100', 'text-rose-900', 'shake-error');
+                playSFX('wrong');
+            }
+        }
+
+        const PYRAMID_DATA = [
+            [
+                { line: 'قَرَأَتْ', words: ['قَرَأَتْ'] },
+                { line: 'قَرَأَتْ نُورَةُ', words: ['قَرَأَتْ', 'نُورَةُ'] },
+                { line: 'قَرَأَتْ نُورَةُ قِصَّةً', words: ['قَرَأَتْ', 'نُورَةُ', 'قِصَّةً'] },
+                { line: 'قَرَأَتْ نُورَةُ قِصَّةً مُمْتِعَةً 📖', words: ['قَرَأَتْ', 'نُورَةُ', 'قِصَّةً', 'مُمْتِعَةً'] }
+            ],
+            [
+                { line: 'كَتَبَ', words: ['كَتَبَ'] },
+                { line: 'كَتَبَ فَوَّازٌ', words: ['كَتَبَ', 'فَوَّازٌ'] },
+                { line: 'كَتَبَ فَوَّازٌ الدَّرْسَ', words: ['كَتَبَ', 'فَوَّازٌ', 'الدَّرْسَ'] },
+                { line: 'كَتَبَ فَوَّازٌ الدَّرْسَ بِخَطٍّ جَمِيلٍ ✍️', words: ['كَتَبَ', 'فَوَّازٌ', 'الدَّرْسَ', 'بِخَطٍّ', 'جَمِيلٍ'] }
+            ],
+            [
+                { line: 'تَسَاعَدَتْ', words: ['تَسَاعَدَتْ'] },
+                { line: 'تَسَاعَدَتِ الأُسْرَةُ', words: ['تَسَاعَدَتِ', 'الأُسْرَةُ'] },
+                { line: 'تَسَاعَدَتِ الأُسْرَةُ فِي تَرْتِيبِ البَيْتِ 🏡', words: ['تَسَاعَدَتِ', 'الأُسْرَةُ', 'فِي', 'تَرْتِيبِ', 'البَيْتِ'] }
+            ]
+        ];
+        let pyramidLevel = 0;
+
+        function initPyramidReading() {
+            const steps = PYRAMID_DATA[pyramidLevel];
+            if (!steps) return;
+
+            const container = document.getElementById('pyramid-container');
+            if (!container) return;
+
+            container.innerHTML = steps.map((item) => {
+                const wordsHtml = item.words.map(w => `
+                    <span onclick="event.stopPropagation(); speakText('${w}')" class="word-chip bg-pink-100 hover:bg-pink-200 text-pink-900 border border-pink-300 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xl cursor-pointer text-xs sm:text-base font-black shadow-xs">
+                        ${w}
+                    </span>
+                `).join(' ');
+
+                return `
+                    <div class="p-3 sm:p-4 bg-pink-50/80 hover:bg-pink-100/90 border-2 border-pink-200 rounded-2xl shadow-sm transition flex flex-col gap-1.5 text-center">
+                        <div class="flex items-center justify-between border-b border-pink-200 pb-1.5">
+                            <span class="text-[11px] sm:text-xs font-bold text-pink-700">اقْرَأِي الكَلِمَاتِ كلمة كَلِمَة:</span>
+                            <button onclick="speakText('${item.line}')" class="px-2 sm:px-3 py-1 bg-pink-500 hover:bg-pink-600 text-white rounded-xl text-[10px] sm:text-xs font-bold flex items-center justify-center gap-1 shadow">
+                                <i class="fa-solid fa-volume-high"></i> قِرَاءَةُ السَّطْرِ كَامِلاً
+                            </button>
+                        </div>
+                        <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-0.5 mx-auto">
+                            ${wordsHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const lastItem = steps[steps.length - 1];
+            if (lastItem) speakText(lastItem.line);
+        }
+
+        function nextPyramidLevel() {
+            pyramidLevel = (pyramidLevel + 1) % PYRAMID_DATA.length;
+            initPyramidReading();
+        }
+
+        const STORY_DATA = [
+            {
+                title: 'قِصَّةُ النَّحْلَةِ زَهْرَةَ 🐝',
+                text: 'فِي الحَدِيقَةِ الْجَمِيلَةِ، كَانَتِ النَّحْلَةُ زَهْرَةُ تُحِبُّ الْعَمَلَ بِنَشَاطٍ. تَطِيرُ بَيْنَ الأَزْهَارِ لِتَجْمَعَ النَّكْتَارَ وَتَصْنَعَ الْعَسَلَ اللَّذِيذَ.',
+                question: 'مَاذَا تَصْنَعُ النَّحْلَةُ زَهْرَةُ؟',
+                choices: ['الْعَسَلَ اللَّذِيذَ', 'الْخُبْزَ', 'الْعَصِيرَ'],
+                correct: 'الْعَسَلَ اللَّذِيذَ'
+            },
+            {
+                title: 'الْجَارُ الصَّغِيرُ 🚒',
+                text: 'شَاهَدَ فَوَّازٌ دُخَانًا كَثِيفًا يَصْعَدُ مِنْ مَنْزِلِ جَارِهِمْ، فَأَسْرَعَ بِلَا تَرَدُّدٍ وَاتَّصَلَ بِالدِّفَاعِ الْمَدَنِيِّ لِإِنْقَاذِ الْبَيْتِ.',
+                question: 'بِمَنْ اتَّصَلَ فَوَّازٌ عِنْدَمَا رَأَى الدُّخَانَ؟',
+                choices: ['بِالدِّفَاعِ الْمَدَنِيِّ', 'بِالشُّرْطَةِ', 'بِالْمُعَلِّمِ'],
+                correct: 'بِالدِّفَاعِ الْمَدَنِيِّ'
+            },
+            {
+                title: 'نُورَةُ فِي الْمَكْتَبَةِ 📚',
+                text: 'ذَهَبَتْ نُورَةُ مَعَ أُسْرَتِهَا إِلَى الْمَكْتَبَةِ. اخْتَارَتْ نُورَةُ قِصَّةً مُمْتِعَةً عَنِ الأَخْلَاقِ وَقَرَأَتْهَا بِشَغَفٍ.',
+                question: 'أَيْنَ ذَهَبَتْ نُورَةُ مَعَ أُسْرَتِهَا؟',
+                choices: ['إِلَى الْمَكْتَبَةِ', 'إِلَى السُّوقِ', 'إِلَى الْمَلْعَبِ'],
+                correct: 'إِلَى الْمَكْتَبَةِ'
+            },
+            {
+                title: 'عَصَافِيرُ الشَّجَرَةِ 🐦',
+                text: 'تَجْتَمِعُ الْعَصَافِيرُ كُلَّ صَبَاحٍ عَلَى أَغْصَانِ الشَّجَرَةِ. تُغَرِّدُ بِأَصْوَاتٍ عَذْبَةٍ وَتَبْدأُ يَوْمَهَا بِتَعَاوُنٍ وَسَعَادَةٍ.',
+                question: 'مَتَى تَجْتَمِعُ الْعَصَافِيرُ عَلَى الشَّجَرَةِ؟',
+                choices: ['كُلَّ صَبَاحٍ', 'فِي اللَّيْلِ', 'فِي المَسَاءِ'],
+                correct: 'كُلَّ صَبَاحٍ'
+            },
+            {
+                title: 'الصَّدِيقَانِ 🤝',
+                text: 'دَعَا عُمَرُ صَدِيقَهُ خَالِدًا لِيَلْعَبَ مَعَهُ بِقِطَارِهِ الْجَدِيدِ. وَعِنْدَمَا كَانَا يَلْعَبَانِ، انْكَسَرَتْ لُعْبَةُ الْقِطَارِ فَاعْتَذَرَ خَالِدٌ وَتَصَالَحَا.',
+                question: 'مَاذَا انْكَسَرَ أَثْنَاءَ اللَّعِبِ؟',
+                choices: ['لُعْبَةُ الْقِطَارِ', 'الْكُرَةُ', 'الْكِتَابُ'],
+                correct: 'لُعْبَةُ الْقِطَارِ'
+            }
+        ];
+        let currentStoryIdx = 0;
+
+        function openComprehensionStory() {
+            savedScrollPosition = window.scrollY || window.pageYOffset || 0;
+            if (synth) { try { synth.cancel(); } catch(e) {} }
+            state.activeModule = 'stories';
+            document.getElementById('main-dashboard').classList.add('hidden');
+            document.getElementById('quick-nav-bar').classList.add('hidden');
+            document.getElementById('mod-stories').classList.remove('hidden');
+
+            renderStory();
+        }
+
+        function renderStory() {
+            const data = STORY_DATA[currentStoryIdx];
+            document.getElementById('story-counter').innerText = `القصة ${currentStoryIdx + 1} من ${STORY_DATA.length}`;
+            document.getElementById('story-title').innerText = data.title;
+            document.getElementById('story-text').innerText = data.text;
+            document.getElementById('story-question').innerText = `سُؤَالٌ: ${data.question}`;
+
+            const opts = document.getElementById('story-options');
+            opts.innerHTML = data.choices.map(c => `
+                <button onclick="checkStoryAnswer(this, '${c}')" class="p-3 sm:p-4 bg-white border-2 border-purple-200 hover:border-purple-500 rounded-2xl font-black text-xs sm:text-base text-slate-800 shadow transition active:scale-95 w-full flex items-center justify-center">
+                    ${c}
+                </button>
+            `).join('');
+        }
+
+        function nextStory() {
+            currentStoryIdx = (currentStoryIdx + 1) % STORY_DATA.length;
+            renderStory();
+        }
+
+        function prevStory() {
+            currentStoryIdx = (currentStoryIdx - 1 + STORY_DATA.length) % STORY_DATA.length;
+            renderStory();
+        }
+
+        function checkStoryAnswer(btnEl, selected) {
+            const data = STORY_DATA[currentStoryIdx];
+            if (selected === data.correct) {
+                btnEl.classList.remove('border-purple-200', 'bg-white');
+                btnEl.classList.add('border-emerald-500', 'bg-emerald-100', 'text-emerald-900');
+                playSFX('correct');
+                addStars(10);
+                showWinModal('إِجَابَةٌ صَحِيحَةٌ! أَنْتِ بَطَلَةُ الْفَهْمِ الْقِرَائِيِّ!');
+            } else {
+                btnEl.classList.remove('border-purple-200', 'bg-white');
+                btnEl.classList.add('border-rose-500', 'bg-rose-100', 'text-rose-900', 'shake-error');
+                playSFX('wrong');
+            }
+        }
+
+        const ANTONYMS_LIST = [
+            { word: 'كَبِيرٌ', options: ['صَغِيرٌ', 'طَوِيلٌ', 'جَمِيلٌ'], correct: 'صَغِيرٌ' },
+            { word: 'سَرِيعٌ', options: ['بَطِيءٌ', 'قَوِيٌّ', 'شُجَاعٌ'], correct: 'بَطِيءٌ' },
+            { word: 'طَوِيلٌ', options: ['قَصِيرٌ', 'نَشِيطٌ', 'كَبِيرٌ'], correct: 'قَصِيرٌ' },
+            { word: 'نَشِيطٌ', options: ['كَسْلاَنُ', 'مَسْرُورٌ', 'صَادِقٌ'], correct: 'كَسْلاَنُ' },
+            { word: 'سَعِيدٌ', options: ['حَزِينٌ', 'بَعِيدٌ', 'قَرِيبٌ'], correct: 'حَزِينٌ' },
+            { word: 'قَرِيبٌ', options: ['بَعِيدٌ', 'عَالٍ', 'جَدِيدٌ'], correct: 'بَعِيدٌ' },
+            { word: 'جَدِيدٌ', options: ['قَدِيمٌ', 'وَاسِعٌ', 'نَظِيفٌ'], correct: 'قَدِيمٌ' },
+            { word: 'نَظِيفٌ', options: ['مُتَّسِخٌ', 'صَغِيرٌ', 'مُظْلِمٌ'], correct: 'مُتَّسِخٌ' },
+            { word: 'مُضِيءٌ', options: ['مُظْلِمٌ', 'حَارٌّ', 'بَارِدٌ'], correct: 'مُظْلِمٌ' },
+            { word: 'حَارٌّ', options: ['بَارِدٌ', 'صَعْبٌ', 'سَهْلٌ'], correct: 'بَارِدٌ' },
+            { word: 'سَهْلٌ', options: ['صَعْبٌ', 'قَلِيلٌ', 'كَثِيرٌ'], correct: 'صَعْبٌ' },
+            { word: 'كَثِيرٌ', options: ['قَلِيلٌ', 'طَوِيلٌ', 'جَدِيدٌ'], correct: 'قَلِيلٌ' },
+            { word: 'صَادِقٌ', options: ['كَاذِبٌ', 'كَسْلاَنُ', 'بَطِيءٌ'], correct: 'كَاذِبٌ' },
+            { word: 'صَعَدَ', options: ['نَزَلَ', 'ذَهَبَ', 'خَرَجَ'], correct: 'نَزَلَ' },
+            { word: 'دَخَلَ', options: ['خَرَجَ', 'نَامَ', 'قَامَ'], correct: 'خَرَجَ' }
+        ];
+
+        const SYNONYMS_LIST = [
+            { word: 'يَعُودُ', options: ['يَرْجِعُ', 'يَكْتُبُ', 'يَلْعَبُ'], correct: 'يَرْجِعُ' },
+            { word: 'يَبْتَهِلُ', options: ['يَدْعُو', 'يَشْرَبُ', 'يَمْشِي'], correct: 'يَدْعُو' },
+            { word: 'مَذْعُوراً', options: ['خَائِفاً', 'مَسْرُوراً', 'نَشِيطاً'], correct: 'خَائِفاً' },
+            { word: 'الْكَهْلُ', options: ['الْكَبِيرُ فِي السِّنِّ', 'الطِّقْلُ', 'الشَّابُّ'], correct: 'الْكَبِيرُ فِي السِّنِّ' },
+            { word: 'كَثِيفاً', options: ['كَثِيراً وَمُتَرَاكِماً', 'قَلِيلاً', 'صَغِيراً'], correct: 'كَثِيراً وَمُتَرَاكِماً' },
+            { word: 'يُحَاكِي', options: ['يُقَلِّدُ', 'يَكْتُبُ', 'يَرْسُمُ'], correct: 'يُقَلِّدُ' },
+            { word: 'الظَّمَأُ', options: ['الْعَطَشُ', 'الْجُوعُ', 'النَّوْمُ'], correct: 'الْعَطَشُ' },
+            { word: 'أَرْجَاء', options: ['أَنْحَاء', 'أَبْوَاب', 'بُيُوت'], correct: 'أَنْحَاء' },
+            { word: 'أَنْهَكَه', options: ['أَتْعَبَهُ', 'أَسْعَدَهُ', 'نَظَّفَهُ'], correct: 'أَتْعَبَهُ' },
+            { word: 'أَعَانَ', options: ['سَاعَدَ', 'شَكَرَ', 'لَعِبَ'], correct: 'سَاعَدَ' },
+            { word: 'شَغَفٌ', options: ['حُبٌّ وَاهْتِمَامٌ', 'خَوْفٌ', 'غَضَبٌ'], correct: 'حُبٌّ وَاهْتِمَامٌ' },
+            { word: 'جَوْلَةٌ', options: ['نُزْهَةٌ', 'قِصَّةٌ', 'لُعْبَةٌ'], correct: 'نُزْهَةٌ' },
+            { word: 'الْفَائِقِينَ', options: ['الْمُتَفَوِّقِينَ', 'الْغَائِبِينَ', 'الْكُسَالَى'], correct: 'الْمُتَفَوِّقِينَ' },
+            { word: 'ذَوِي', options: ['أَصْحَابِ', 'أَعْدَاءِ', 'جِيرَانِ'], correct: 'أَصْحَابِ' },
+            { word: 'تَعَاوَنَ', options: ['تَسَاعَدَ', 'تَشَاجَرَ', 'تَأَخَّرَ'], correct: 'تَسَاعَدَ' }
+        ];
+
+        let synAntTab = 'antonyms';
+        let currentSynAntIdx = 0;
+
+        function openSynAntModule() {
+            savedScrollPosition = window.scrollY || window.pageYOffset || 0;
+            state.activeModule = 'syn-ant';
+            currentSynAntIdx = 0;
+
+            document.getElementById('main-dashboard').classList.add('hidden');
+            document.getElementById('quick-nav-bar').classList.add('hidden');
+            document.getElementById('mod-syn-ant').classList.remove('hidden');
+
+            switchSynAntTab('antonyms');
+        }
+
+        function switchSynAntTab(tab) {
+            synAntTab = tab;
+            currentSynAntIdx = 0;
+
+            const btnAnt = document.getElementById('tab-antonyms');
+            const btnSyn = document.getElementById('tab-synonyms');
+
+            if (tab === 'antonyms') {
+                if (btnAnt) btnAnt.className = "px-3.5 sm:px-6 py-1.5 sm:py-2.5 rounded-2xl font-black text-xs sm:text-sm transition shadow bg-pink-500 text-white";
+                if (btnSyn) btnSyn.className = "px-3.5 sm:px-6 py-1.5 sm:py-2.5 rounded-2xl font-black text-xs sm:text-sm transition bg-white text-slate-600 border border-slate-200 hover:bg-slate-50";
+            } else {
+                if (btnSyn) btnSyn.className = "px-3.5 sm:px-6 py-1.5 sm:py-2.5 rounded-2xl font-black text-xs sm:text-sm transition shadow bg-pink-500 text-white";
+                if (btnAnt) btnAnt.className = "px-3.5 sm:px-6 py-1.5 sm:py-2.5 rounded-2xl font-black text-xs sm:text-sm transition bg-white text-slate-600 border border-slate-200 hover:bg-slate-50";
+            }
+
+            renderSynAntQuestion();
+        }
+
+        function renderSynAntQuestion() {
+            const list = synAntTab === 'antonyms' ? ANTONYMS_LIST : SYNONYMS_LIST;
+            const item = list[currentSynAntIdx];
+            if (!item) return;
+
+            document.getElementById('syn-ant-step').innerText = `السؤال ${currentSynAntIdx + 1} من ${list.length}`;
+            document.getElementById('syn-ant-prompt-type').innerText = synAntTab === 'antonyms' ? 'مَا ضِدُّ الْكَلِمَةِ التَّالِيَةِ؟' : 'مَا مَرْدِفُ (مَعْنَى) الْكَلِمَةِ التَّالِيَةِ؟';
+            document.getElementById('syn-ant-target-word').innerText = item.word;
+
+            const optsEl = document.getElementById('syn-ant-options');
+            if (optsEl) {
+                optsEl.innerHTML = item.options.map(opt => `
+                    <button onclick="checkSynAntAnswer(this, '${opt}')" class="p-3 sm:p-4 bg-white border-2 border-pink-200 hover:border-pink-500 rounded-2xl font-black text-sm sm:text-lg text-slate-800 shadow transition active:scale-95 w-full flex items-center justify-center">
+                        ${opt}
+                    </button>
+                `).join('');
+            }
+        }
+
+        function checkSynAntAnswer(btnEl, selected) {
+            const list = synAntTab === 'antonyms' ? ANTONYMS_LIST : SYNONYMS_LIST;
+            const item = list[currentSynAntIdx];
+            if (!item) return;
+
+            if (selected === item.correct) {
+                btnEl.classList.remove('border-pink-200', 'hover:border-pink-500', 'bg-white');
+                btnEl.classList.add('border-emerald-500', 'bg-emerald-100', 'text-emerald-900');
+                playSFX('correct');
+                addStars(10);
+                if (currentSynAntIdx < list.length - 1) {
+                    currentSynAntIdx++;
+                    setTimeout(renderSynAntQuestion, 700);
+                } else {
+                    showWinModal('رَائِعَةٌ جِدًّا! لَقَدْ أَنَهَيْتِ جَمِيعَ كَلِمَاتِ هَذَا التَّحَدِّي بِنَجَاحٍ!');
+                    currentSynAntIdx = 0;
+                }
+            } else {
+                btnEl.classList.remove('border-pink-200', 'hover:border-pink-500', 'bg-white');
+                btnEl.classList.add('border-rose-500', 'bg-rose-100', 'text-rose-900', 'shake-error');
+                playSFX('wrong');
+            }
+        }
+
+        const GRAMMAR_TOPICS_DATA = {
+            'sun-moon': {
+                title: 'الـ الشَّمْسِيَّةُ ☀️ وَالْقَمَرِيَّةُ 🌙',
+                questions: [
+                    { word: 'الشَّمْسُ', choices: ['☀️ شَمْسِيَّةٌ', '🌙 قَمَرِيَّةٌ'], correct: '☀️ شَمْسِيَّةٌ' },
+                    { word: 'الْقَمَرُ', choices: ['☀️ شَمْسِيَّةٌ', '🌙 قَمَرِيَّةٌ'], correct: '🌙 قَمَرِيَّةٌ' },
+                    { word: 'الزَّهْرَةُ', choices: ['☀️ شَمْسِيَّةٌ', '🌙 قَمَرِيَّةٌ'], correct: '☀️ شَمْسِيَّةٌ' },
+                    { word: 'الْكِتَابُ', choices: ['☀️ شَمْسِيَّةٌ', '🌙 قَمَرِيَّةٌ'], correct: '🌙 قَمَرِيَّةٌ' },
+                    { word: 'الطَّالِبَةُ', choices: ['☀️️ شَمْسِيَّةٌ', '🌙 قَمَرِيَّةٌ'], correct: '☀️ شَمْسِيَّةٌ' },
+                    { word: 'الْمَدْرَسَةُ', choices: ['☀️ شَمْسِيَّةٌ', '🌙 قَمَرِيَّةٌ'], correct: '🌙 قَمَرِيَّةٌ' },
+                    { word: 'التُّفَّاحُ', choices: ['☀️ شَمْسِيَّةٌ', '🌙 قَمَرِيَّةٌ'], correct: '☀️ شَمْسِيَّةٌ' },
+                    { word: 'الْعِنَبُ', choices: ['☀️ شَمْسِيَّةٌ', '🌙 قَمَرِيَّةٌ'], correct: '🌙 قَمَرِيَّةٌ' },
+                    { word: 'الرَّبِيعُ', choices: ['☀️ شَمْسِيَّةٌ', '🌙 قَمَرِيَّةٌ'], correct: '☀️ شَمْسِيَّةٌ' },
+                    { word: 'الْبَابُ', choices: ['☀️ شَمْسِيَّةٌ', '🌙 قَمَرِيَّةٌ'], correct: '🌙 قَمَرِيَّةٌ' }
+                ]
+            },
+            'shaddah': {
+                title: 'الـشَّدَّةُ ⚡ (حَدِّدِي الْكَلِمَةَ الَّتِي بِهَا شَدَّةٌ)',
+                questions: [
+                    { word: 'اخْتَرِ الكَلِمَةَ الَّتِي بِهَا شَدَّةٌ ⚡', choices: ['مُعَلِّمَةٌ 👩‍🏫', 'قَلَمٌ ✏️', 'كِتَابٌ 📚'], correct: 'مُعَلِّمَةٌ 👩‍🏫' },
+                    { word: 'اخْتَرِ الكَلِمَةَ الَّتِي بِهَا شَدَّةٌ ⚡', choices: ['وَرَدَةٌ 🌹', 'قِطَّةٌ 🐱', 'سَمَكَةٌ 🐟'], correct: 'قِطَّةٌ 🐱' },
+                    { word: 'اخْتَرِ الكَلِمَةَ الَّتِي بِهَا شَدَّةٌ ⚡', choices: ['سَيَّارَةٌ 🚗', 'بَابٌ 🚪', 'شَمْسٌ ☀️'], correct: 'سَيَّارَةٌ 🚗' },
+                    { word: 'اخْتَرِ الكَلِمَةَ الَّتِي بِهَا شَدَّةٌ ⚡', choices: ['دَرَّاجَةٌ 🚲', 'مَوْزٌ 🍌', 'عِنَبٌ 🍇'], correct: 'دَرَّاجَةٌ 🚲' },
+                    { word: 'اخْتَرِ الكَلِمَةَ الَّتِي بِهَا شَدَّةٌ ⚡', choices: ['بَيْتٌ 🏠', 'فَوَّازٌ 👦', 'ثَوْبٌ 👔'], correct: 'فَوَّازٌ 👦' },
+                    { word: 'اخْتَرِ الكَلِمَةَ الَّتِي بِهَا شَدَّةٌ ⚡', choices: ['أُمِّي 👩', 'أَبِي 👨', 'أَخِي 👦'], correct: 'أُمِّي 👩' },
+                    { word: 'اخْتَرِ الكَلِمَةَ الَّتِي بِهَا شَدَّةٌ ⚡', choices: ['طَالِبٌ 🧑‍🎓', 'مُعَلِّمٌ 👨‍🏫', 'وَلَدٌ 👦'], correct: 'مُعَلِّمٌ 👨‍🏫' },
+                    { word: 'اخْتَرِ الكَلِمَةَ الَّتِي بِهَا شَدَّةٌ ⚡', choices: ['تُفَّاحٌ 🍎', 'عِنَبٌ 🍇', 'تِينٌ 🫒'], correct: 'تُفَّاحٌ 🍎' },
+                    { word: 'اخْتَرِ الكَلِمَةَ الَّتِي بِهَا شَدَّةٌ ⚡', choices: ['شُبَّاكٌ 🪟', 'بَابٌ 🚪', 'جِدَارٌ 🧱'], correct: 'شُبَّاكٌ 🪟' },
+                    { word: 'اخْتَرِ الكَلِمَةَ الَّتِي بِهَا شَدَّةٌ ⚡', choices: ['طَيَّارٌ 🧑‍✈️', 'سَائِقٌ 🚗', 'طَبِيبٌ 🧑‍⚕'], correct: 'طَيَّارٌ 🧑‍✈️' }
+                ]
+            },
+            'tanween': {
+                title: 'التَّنْوِينُ 🔔 (تَنْوِينُ الْفَتْحِ ـً ، تَنْوِينُ الضَّمِّ ـٌ ، تَنْوِينُ الْكَسْرِ ـٍ)',
+                questions: [
+                    { word: 'كِتَابًا', choices: ['تَنْوِينُ الْفَتْحِ ( ـً )', 'تَنْوِينُ الضَّمِّ ( ـٌ )', 'تَنْوِينُ الْكَسْرِ ( ـٍ )'], correct: 'تَنْوِينُ الْفَتْحِ ( ـً )' },
+                    { word: 'بَيْتٌ', choices: ['تَنْوِينُ الضَّمِّ ( ـٌ )', 'تَنْوِينُ الْفَتْحِ ( ـً )', 'تَنْوِينُ الْكَسْرِ ( ـٍ )'], correct: 'تَنْوِينُ الضَّمِّ ( ـٌ )' },
+                    { word: 'بِخَطٍّ', choices: ['تَنْوِينُ الْكَسْرِ ( ـٍ )', 'تَنْوِينُ الْفَتْحِ ( ـً )', 'تَنْوِينُ الضَّمِّ ( ـٌ )'], correct: 'تَنْوِينُ الْكَسْرِ ( ـٍ )' },
+                    { word: 'قِصَّةً', choices: ['تَنْوِينُ الْفَتْحِ ( ـً )', 'تَنْوِينُ الضَّمِّ ( ـٌ )', 'تَنْوِينُ الْكَسْرِ ( ـٍ )'], correct: 'تَنْوِينُ الْفَتْحِ ( ـً )' },
+                    { word: 'زَهْرَةٌ', choices: ['تَنْوِينُ الضَّمِّ ( ـٌ )', 'تَنْوِينُ الْفَتْحِ ( ـً )', 'تَنْوِينُ الْكَسْرِ ( ـٍ )'], correct: 'تَنْوِينُ الضَّمِّ ( ـٌ )' },
+                    { word: 'مَدْرَسَةٍ', choices: ['تَنْوِينُ الْكَسْرِ ( ـٍ )', 'تَنْوِينُ الْفَتْحِ ( ـً )', 'تَنْوِينُ الضَّمِّ ( ـٌ )'], correct: 'تَنْوِينُ الْكَسْرِ ( ـٍ )' },
+                    { word: 'سَمَكَةً', choices: ['تَنْوِينُ الْفَتْحِ ( ـً )', 'تَنْوِينُ الضَّمِّ ( ـٌ )', 'تَنْوِينُ الْكَسْرِ ( ـٍ )'], correct: 'تَنْوِينُ الْفَتْحِ ( ـً )' },
+                    { word: 'سَرِيعٌ', choices: ['تَنْوِينُ الضَّمِّ ( ـٌ )', 'تَنْوِينُ الْفَتْحِ ( ـً )', 'تَنْوِينُ الْكَسْرِ ( ـٍ )'], correct: 'تَنْوِينُ الضَّمِّ ( ـٌ )' },
+                    { word: 'جَمِيلٍ', choices: ['تَنْوِينُ الْكَسْرِ ( ـٍ )', 'تَنْوِينُ الْفَتْحِ ( ـً )', 'تَنْوِينُ الضَّمِّ ( ـٌ )'], correct: 'تَنْوِينُ الْكَسْرِ ( ـٍ )' },
+                    { word: 'عَلَمًا', choices: ['تَنْوِينُ الْفَتْحِ ( ـً )', 'تَنْوِينُ الضَّمِّ ( ـٌ )', 'تَنْوِينُ الْكَسْرِ ( ـٍ )'], correct: 'تَنْوِينُ الْفَتْحِ ( ـً )' }
+                ]
+            },
+            'exception': {
+                title: 'الأُسْلُوبُ اللُّغَوِيُّ: الإِسْتِثْنَاءُ 🚫 (إِلَّا / غَيْرَ)',
+                questions: [
+                    { word: 'حَضَرَ الطُّلَّابُ ..... طَالِباً', choices: ['إِلَّا', 'غَيْرَ'], correct: 'إِلَّا' },
+                    { word: 'أَكَلْتُ الْفَوَاكِهَ ..... عِنَبَةٍ', choices: ['إِلَّا', 'غَيْرَ'], correct: 'غَيْرَ' },
+                    { word: 'حَفِظْتُ السُّوَرَ ..... سُورَةً', choices: ['إِلَّا', 'غَيْرَ'], correct: 'إِلَّا' },
+                    { word: 'قَرَأْتُ الْكُتُبَ ..... كِتَابٍ', choices: ['إِلَّا', 'غَيْرَ'], correct: 'غَيْرَ' },
+                    { word: 'تَجَمَّعَتِ العَصَافِيرُ ..... عُصْفُوراً', choices: ['إِلَّا', 'غَيْرَ'], correct: 'إِلَّا' },
+                    { word: 'تَفَتَّحَتِ الأَزْهَارُ ..... زَهْرَةٍ', choices: ['إِلَّا', 'غَيْرَ'], correct: 'غَيْرَ' },
+                    { word: 'عَادَ الْمُسَافِرُونَ ..... مُسَافِراً', choices: ['إِلَّا', 'غَيْرَ'], correct: 'إِلَّا' },
+                    { word: 'انْتَهَتِ الدُّرُوسُ ..... دَرْسٍ', choices: ['إِلَّا', 'غَيْرَ'], correct: 'غَيْرَ' },
+                    { word: 'لَعِبَتِ الطَّالِبَاتُ ..... طَالِبَةً', choices: ['إِلَّا', 'غَيْرَ'], correct: 'إِلَّا' },
+                    { word: 'شَارَكَ الجَمِيعُ ..... طِفْلٍ', choices: ['إِلَّا', 'غَيْرَ'], correct: 'غَيْرَ' }
+                ]
+            },
+            'hamza': {
+                title: 'هَمْزَةُ الْقَطْعِ 📍 وَالْوَصْلِ',
+                questions: [
+                    { word: 'أَحْمَدُ', choices: ['هَمْزَةُ قَطْعٍ (أَ)', 'هَمْزَةُ وَصْلٍ (ا)'], correct: 'هَمْزَةُ قَطْعٍ (أَ)' },
+                    { word: 'اكْتُبْ', choices: ['هَمْزَةُ قَطْعٍ (أَ)', 'هَمْزَةُ وَصْلٍ (ا)'], correct: 'هَمْزَةُ وَصْلٍ (ا)' },
+                    { word: 'أُسْرَةٌ', choices: ['هَمْزَةُ قَطْعٍ (أَ)', 'هَمْزَةُ وَصْلٍ (ا)'], correct: 'هَمْزَةُ قَطْعٍ (أَ)' },
+                    { word: 'الْمَدْرَسَةُ', choices: ['هَمْزَةُ قَطْعٍ (أَ)', 'هَمْزَةُ وَصْلٍ (ا)'], correct: 'هَمْزَةُ وَصْلٍ (ا)' },
+                    { word: 'إِبْرَاهِيمُ', choices: ['هَمْزَةُ قَطْعٍ (أَ)', 'هَمْزَةُ وَصْلٍ (ا)'], correct: 'هَمْزَةُ وَصْلٍ (ا)' },
+                    { word: 'اسْتَمِعْ', choices: ['هَمْزَةُ قَطْعٍ (أَ)', 'هَمْزَةُ وَصْلٍ (ا)'], correct: 'هَمْزَةُ وَصْلٍ (ا)' },
+                    { word: 'أُمِّي', choices: ['هَمْزَةُ قَطْعٍ (أَ)', 'هَمْزَةُ وَصْلٍ (ا)'], correct: 'هَمْزَةُ قَطْعٍ (أَ)' },
+                    { word: 'اقْرَأْ', choices: ['هَمْزَةُ قَطْعٍ (أَ)', 'هَمْزَةُ وَصْلٍ (ا)'], correct: 'هَمْزَةُ وَصْلٍ (ا)' },
+                    { word: 'أَخِي', choices: ['هَمْزَةُ قَطْعٍ (أَ)', 'هَمْزَةُ وَصْلٍ (ا)'], correct: 'هَمْزَةُ قَطْعٍ (أَ)' },
+                    { word: 'ابْنٌ', choices: ['هَمْزَةُ قَطْعٍ (أَ)', 'هَمْزَةُ وَصْلٍ (ا)'], correct: 'هَمْزَةُ وَصْلٍ (ا)' }
+                ]
+            },
+            'pronouns': {
+                title: 'الضَّمَائِرُ 👥 (أَنَا / أَنْتِ / هُوَ / هِيَ / نَحْنُ)',
+                questions: [
+                    { word: '👦 ..... أُحِبُّ لُغَتِي الْعَرَبِيَّةَ', choices: ['أَنَا 🙋‍♂️ (مُفْرَدٌ)', 'هُوَ 🧑 (مُذَكَّرٌ)', 'هِيَ 👧 (مُؤَنَّثٌ)'], correct: 'أَنَا 🙋‍♂️ (مُفْرَدٌ)' },
+                    { word: '👧 ..... طَالِبَةٌ مَاهِرَةٌ', choices: ['أَنْتِ 👧 (مُؤَنَّثٌ)', 'هُوَ 🧑 (مُذَكَّرٌ)', 'نَحْنُ 👥 (جَمْعٌ)'], correct: 'أَنْتِ 👧 (مُؤَنَّثٌ)' },
+                    { word: '🧑 ..... يَكْتُبُ الدَّرْسَ', choices: ['هُوَ 🧑 (مُذَكَّرٌ)', 'هِيَ 👧 (مُؤَنَّثٌ)', 'أَنَا 🙋‍♂️ (مُفْرَدٌ)'], correct: 'هُوَ 🧑 (مُذَكَّرٌ)' },
+                    { word: '👧 ..... تَقْرَأُ قِصَّةً', choices: ['هِيَ 👧 (مُؤَنَّثٌ)', 'هُوَ 🧑 (مُذَكَّرٌ)', 'أَنْتِ 👧 (مُؤَنَّثٌ)'], correct: 'هِيَ 👧 (مُؤَنَّثٌ)' },
+                    { word: '👨‍‍👩‍👧‍‍👦 ..... نَحْرِصُ عَلَى النَّظَافَةِ', choices: ['نَحْنُ 👥 (جَمْعٌ)', 'أَنَا 🙋‍♂️ (مُفْرَدٌ)', 'هُوَ 🧑 (مُذَكَّرٌ)'], correct: 'نَحْنُ 👥 (جَمْعٌ)' },
+                    { word: '🙋‍♀️ ..... أَرْسُمُ زَهْرَةً', choices: ['أَنَا 🙋‍♀️ (مُفْرَدٌ)', 'هِيَ 👧 (مُؤَنَّثٌ)', 'هُوَ 🧑 (مُذَكَّرٌ)'], correct: 'أَنَا 🙋‍♀️ (مُفْرَدٌ)' },
+                    { word: '👧 ..... تُسَاعِدُ أُمَّهَا', choices: ['هِيَ 👧 (مُؤَنَّثٌ)', 'هُوَ 🧑 (مُذَكَّرٌ)', 'أَنَا 🙋‍♂️ (مُفْرَدٌ)'], correct: 'هِيَ 👧 (مُؤَنَّثٌ)' },
+                    { word: '🧑 ..... يَلْعَبُ بِالْكُرَةِ', choices: ['هُوَ 🧑 (مُذَكَّرٌ)', 'هِيَ 👧 (مُؤَنَّثٌ)', 'أَنْتِ 👧 (مُؤَنَّثٌ)'], correct: 'هُوَ 🧑 (مُذَكَّرٌ)' },
+                    { word: '👩‍👩‍👧 ..... طَالِبَاتٌ نَشِيطَاتٌ', choices: ['نَحْنُ 👥 (جَمْعٌ)', 'أَنَا 🙋‍♀️ (مُفْرَدٌ)', 'هُوَ 🧑 (مُذَكَّرٌ)'], correct: 'نَحْنُ 👥 (جَمْعٌ)' },
+                    { word: '👧 ..... تَبْتَسِمِينَ لِلْجَمِيعِ', choices: ['أَنْتِ 👧 (مُؤَنَّثٌ)', 'هُوَ 🧑 (مُذَكَّرٌ)', 'أَنَا 🙋‍♂️ (مُفْرَدٌ)'], correct: 'أَنْتِ 👧 (مُؤَنَّثٌ)' }
+                ]
+            },
+            'ta-marbouta': {
+                title: 'التَّاءُ الْمَرْبُوطَةُ 🎀 وَالْمَفْتُوحَةُ ✉',
+                questions: [
+                    { word: 'فَرَاشَــ.....', choices: ['ـةٌ (تَاءٌ مَرْبُوطَةٌ)', 'ـتٌ (تَاءٌ مَفْتُوحَةٌ)'], correct: 'ـةٌ (تَاءٌ مَرْبُوطَةٌ)' },
+                    { word: 'بَيـ.....', choices: ['ـتٌ (تَاءٌ مَفْتُوحَةٌ)', 'ـةٌ (تَاءٌ مَرْبُوطَةٌ)'], correct: 'ـتٌ (تَاءٌ مَفْتُوحَةٌ)' },
+                    { word: 'مَدْرَسَــ.....', choices: ['ـةٌ (تَاءٌ مَرْبُوطَةٌ)', 'ـتٌ (تَاءٌ مَفْتُوحَةٌ)'], correct: 'ـةٌ (تَاءٌ مَرْبُوطَةٌ)' },
+                    { word: 'بِنْــ.....', choices: ['ـتٌ (تَاءٌ مَفْتُوحَةٌ)', 'ـةٌ (تَاءٌ مَرْبُوطَةٌ)'], correct: 'ـتٌ (تَاءٌ مَفْتُوحَةٌ)' },
+                    { word: 'شَجَرَةٌ', choices: ['تَاءٌ مَرْبُوطَةٌ (ـة / ة)', 'تَاءٌ مَفْتُوحَةٌ (ـت / ت)'], correct: 'تَاءٌ مَرْبُوطَةٌ (ـة / ة)' },
+                    { word: 'صَوْتٌ', choices: ['تَاءٌ مَفْتُوحَةٌ (ـت / ت)', 'تَاءٌ مَرْبُوطَةٌ (ـة / ة)'], correct: 'تَاءٌ مَفْتُوحَةٌ (ـت / ت)' },
+                    { word: 'نَحْلَةٌ', choices: ['تَاءٌ مَرْبُوطَةٌ (ـة / ة)', 'تَاءٌ مَفْتُوحَةٌ (ـت / ت)'], correct: 'تَاءٌ مَرْبُوطَةٌ (ـة / ة)' },
+                    { word: 'زَيْتٌ', choices: ['تَاءٌ مَفْتُوحَةٌ (ـت / ت)', 'تَاءٌ مَرْبُوطَةٌ (ـة / ة)'], correct: 'تَاءٌ مَفْتُوحَةٌ (ـت / ت)' },
+                    { word: 'قِصَّةٌ', choices: ['تَاءٌ مَرْبُوطَةٌ (ـة / ة)', 'تَاءٌ مَفْتُوحَةٌ (ـت / ت)'], correct: 'تَاءٌ مَرْبُوطَةٌ (ـة / ة)' },
+                    { word: 'وَقْتٌ', choices: ['تَاءٌ مَفْتُوحَةٌ (ـت / ت)', 'تَاءٌ مَرْبُوطَةٌ (ـة / ة)'], correct: 'تَاءٌ مَفْتُوحَةٌ (ـت / ت)' }
+                ]
+            }
+        };
+
+        let currentGrammarKey = 'sun-moon';
+        let currentGrammarIdx = 0;
+
+        function openGrammarTopic(topicKey) {
+            savedScrollPosition = window.scrollY || window.pageYOffset || 0;
+            currentGrammarKey = topicKey;
+            currentGrammarIdx = 0;
+
+            state.activeModule = 'grammar-interactive';
+            document.getElementById('main-dashboard').classList.add('hidden');
+            document.getElementById('quick-nav-bar').classList.add('hidden');
+            document.getElementById('mod-grammar-interactive').classList.remove('hidden');
+
+            renderGrammarQuestion();
+        }
+
+        function renderGrammarQuestion() {
+            const topic = GRAMMAR_TOPICS_DATA[currentGrammarKey];
+            if (!topic) return;
+
+            const item = topic.questions[currentGrammarIdx];
+            if (!item) return;
+
+            document.getElementById('grammar-topic-title').innerText = topic.title;
+            document.getElementById('grammar-step').innerText = `السؤال ${currentGrammarIdx + 1} من ${topic.questions.length}`;
+            document.getElementById('grammar-target-word').innerText = item.word;
+
+            const optsEl = document.getElementById('grammar-options');
+            if (optsEl) {
+                if (item.choices.length === 2) {
+                    optsEl.className = "flex flex-col sm:flex-row justify-center items-center gap-2.5 sm:gap-4 max-w-md w-full mx-auto";
+                } else {
+                    optsEl.className = "grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4 max-w-xl w-full mx-auto justify-items-center";
+                }
+
+                optsEl.innerHTML = item.choices.map(c => `
+                    <button onclick="checkGrammarAnswer(this, '${c}')" class="p-3 sm:p-4 bg-white border-2 border-rose-200 hover:border-rose-500 rounded-2xl font-black text-sm sm:text-xl text-slate-800 shadow transition active:scale-95 w-full flex items-center justify-center text-center">
+                        ${c}
+                    </button>
+                `).join('');
+            }
+
+            if (currentGrammarKey !== 'tanween' && currentGrammarKey !== 'pronouns' && !item.word.includes('اخْتَرِ')) {
+                speakText(item.word);
+            }
+        }
+
+        function checkGrammarAnswer(btnEl, selected) {
+            const topic = GRAMMAR_TOPICS_DATA[currentGrammarKey];
+            if (!topic) return;
+
+            const item = topic.questions[currentGrammarIdx];
+            if (!item) return;
+
+            if (selected.trim() === item.correct.trim()) {
+                btnEl.classList.remove('border-rose-200', 'hover:border-rose-500', 'bg-white');
+                btnEl.classList.add('border-emerald-500', 'bg-emerald-100', 'text-emerald-900');
+                playSFX('correct');
+                addStars(10);
+
+                if (currentGrammarIdx < topic.questions.length - 1) {
+                    currentGrammarIdx++;
+                    setTimeout(renderGrammarQuestion, 700);
+                } else {
+                    showWinModal('أَحْسَنْتِ! لَقَدْ أَنَهَيْتِ جَمِيعَ أَسْئِلَةِ هَذَا التَّرْكِيبِ اللُّغَوِيِّ بِنَجَاحٍ!');
+                    currentGrammarIdx = 0;
+                }
+            } else {
+                btnEl.classList.remove('border-rose-200', 'hover:border-rose-500', 'bg-white');
+                btnEl.classList.add('border-rose-500', 'bg-rose-100', 'text-rose-900', 'shake-error');
+                playSFX('wrong');
+            }
+        }
+
+        function showWinModal(desc) {
+            playSFX('win');
+            document.getElementById('win-modal-desc').innerText = desc;
+            document.getElementById('win-modal').classList.remove('hidden');
+        }
+
+        function closeWinModal() {
+            document.getElementById('win-modal').classList.add('hidden');
+        }
+
+        function openCertificateModal() {
+            playSFX('win');
+            document.getElementById('certificate-modal').classList.remove('hidden');
+        }
+
+        function closeCertificateModal() {
+            document.getElementById('certificate-modal').classList.add('hidden');
+        }
+
+        window.onload = function() {
+            document.getElementById('star-count').innerText = state.stars;
+            initCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            window.addEventListener('orientationchange', () => {
+                setTimeout(resizeCanvas, 200);
+            });
+        };
+    </script>
+</body>
+</html>
